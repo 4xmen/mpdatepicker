@@ -1,12 +1,13 @@
-;(function ($) {
+;
+(function ($) {
 
-    $.fn.mpdatepicker = function ( options ) {
+    $.fn.mpdatepicker = function (options) {
 
         $.mpdt = this;
 
         var settings = $.extend({
-            text: 'Hello, World!',
-            color: null,
+            modal_bg: 'rgba(0,0,0,0.5)',
+            datepicker_bg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAXCAYAAAALHW+jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AsWCCkyWrAXowAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAJDSURBVDjLnZU9a1RREIaf2b2ra9gFU6g5uLEwIgoBBRWsRFSiweYq/gIbQSsFDVpIQBSsxMKf4AcIcgoRRFGLIGJnExU/ihQeTSlKkt14x2YOHC53N9Epdnlnzpk795135kKFOa+XndcGfcx53ei8TjmvUo7V+ty5AWynvx0BrgKrTgjQGxBbBjTkUpQD4rx2gPdAqxQrBjxQ4/3E9x0YrwGXSsnG7f8k0K1I9ge4BvwGziT+EeB8DdhQunDY+CmANRUJ68BH4CawtxRrifM6BRyqeCVhsFWdeZQBXyr4+1+by4yrU8B8KjXgW1JB2zq7kKhjkzUiNmgzcDt2cSbk0gG2AVuAzyGX0QRfB04DW823C5gDxgyPWkGaJRIh5LJok6AlvAz0Qi5dww2rbCnkouZbUdj9tDfQJ87rXWACeG0PUOv6MyAzPAb8SnjOgAPAS4sXwDHgTmbEzwMPTHfLpq/7wDrDx4EAvLPzTWAP8DAZxYOA4Lzec16fl7bJhxK+4LxOJrjtvH6NvJnvh/N66184lNX4YpcbzusQsNa2TN15zUx/PXv1lvO63pK0je9hU0QvJs+M0N1GcGxKB5ixuVUb/EXgYjLPI8DTpNvDUYd14E3I5WjCx2zIZX+CzwKzIZdXhgX4FHLZl5wJgMSK6iss3iYwlG4VoFb6BNTij8RJGSDYLrCU4AWgiFOSbh9xXqeBc8ALq7QAJoHHQMPwDuCnLYPI/QTwJBndE8AVcV6btix3JpWWd13V7kt9ArwFpv8Ctt/A5Glz+/0AAAAASUVORK5CYII=',
             fontStyle: null,
             complete: null
         }, options);
@@ -14,6 +15,41 @@
 
         this.persian_month_names = ['', 'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
 
+
+
+
+        this.WriteCSS = function () {
+            
+            $("#mpdatepicker-modal").css({
+                "background": settings.modal_bg,
+                'position': 'fixed',
+                'left': 0,
+                'right': 0,
+                'top': 0,
+                'bottom': 0,
+                'z-index': 99999,
+                'display': 'none'
+            });
+
+
+            $(' <style> .mpdatepicker {background: no-repeat 3px;text-align:center;background-image: url(' + settings.datepicker_bg + ');padding:6px;padding-left:25px;border:1px solid  silver;} <style>').appendTo("head");
+
+
+        }
+
+        this.MakeModalBg = function () {
+            // check is modal exists
+            if ($("#mpdatepicker-modal").length == 0) {
+                //it doesn't exist
+                $('body').append('<div id="mpdatepicker-modal" ></div>');
+            }
+
+            $("#mpdatepicker-modal").bind('click.close', function (e) {
+                if ($(e.target).is(this)) {
+                    $(this).fadeOut(400);
+                }
+            });
+        };
 
         /**
          *  from parsi date by mobin ghasem pour 
@@ -33,19 +69,19 @@
                 determ = '/';
             }
             var a = date_txt.split(determ);
-            
+
             if (a[0].length < a[2].length) {
-                return [a[2],a[1],a[0]] ;
+                return [a[2], a[1], a[0]];
             }
-            
+
             return a;
         };
         this.imploiter = function (date_txt, determ) {
             if (determ === undefined) {
                 determ = '/';
             }
-           
-            return date_txt[2] +determ+date_txt[1] +determ+date_txt[2] ;
+
+            return date_txt[2] + determ + date_txt[1] + determ + date_txt[2];
         };
 
 
@@ -56,7 +92,7 @@
          */
         this.Persian2Gregorian = function (indate) {
             var jy = indate[0];
-            var jm= indate[1];
+            var jm = indate[1];
             var jd = indate[2];
             var gd;
             j_days_sum_month = [0, 0, 31, 62, 93, 124, 155, 186, 216, 246, 276, 306, 336, 365];
@@ -92,12 +128,12 @@
          * @param {Array} indate
          * @returns {Array}
          */
-        this.Gregorian2Persian = function (indate ) {
-            
+        this.Gregorian2Persian = function (indate) {
+
             var gy = indate[0];
             var gm = indate[1];
             var gd = indate[2];
-            
+
             j_days_in_month = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
             g_days_sum_month = [0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
             dayofyear = g_days_sum_month[parseInt(gm)] + parseInt(gd);
@@ -126,7 +162,16 @@
             $(this).addClass('mpdatepicker');
 
 
+            $(this).bind('focus.open', function () {
+                     $("#mpdatepicker-modal").fadeIn(400);
+            });
+
             console.log($.mpdt.Gregorian2Persian($.mpdt.exploiter($(this).val())));
+
+
+            $.mpdt.MakeModalBg();
+            $.mpdt.WriteCSS();
+
         });
 
 
