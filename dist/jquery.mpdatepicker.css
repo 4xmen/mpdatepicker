@@ -6,6 +6,7 @@
     bottom: 0;
     z-index: 99999;
     /*display: none*/
+
 }
 .mpdatepicker {
     background:no-repeat 3px;
@@ -23,9 +24,10 @@
     left:0;
     right:0;
     bottom:0px;
-    min-height:150px;
+    min-height:200px;
     margin:auto;
     width:400px;
+    box-shadow: 0px 0px 30px #444 ;
 }
 .mpbtn{
     padding:10px
@@ -42,4 +44,62 @@
     float:right;
     font-size:30px;
     padding-top:0
+}
+
+.mpheader{
+    /*width:140px;*/
+    margin:5px auto;
+    /*border:1px solid silver;*/
+}
+
+#mpmonth{
+    display: inline-block;
+    padding: 5px;
+    font-weight: 700;
+    position:relative;
+    width: 25%;
+    text-align: center;
+}
+
+#mpmonth:hover{
+    background:  #b1dcfb ;
+}
+
+
+#mpmonth ul{
+    display: none;
+    position: absolute;
+    background:  #fff ;
+    list-style:none;
+    padding: 5px 0;
+    bottom:-100px;
+    right:-20px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 7px #000 ;
+}
+
+#mpmonth ul li{
+    padding: 5px;
+    width: 120px;
+    font-weight: 100;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+#mpmonth ul li:hover{
+    border-bottom: 2px solid #13a7c7;
+    background: #b1dcfb  ;
+}
+
+#mpmonth span{
+    display: block;
+    text-align: center;
+    cursor: pointer;
+}
+
+#mpyear{
+    width: 25%;
+    text-align: center;
+    padding: 5px;
+    display: inline-block;
+    color:gray;
 }
