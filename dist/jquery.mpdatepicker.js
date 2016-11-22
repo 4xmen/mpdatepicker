@@ -21,21 +21,22 @@
         this.WriteCSS = function () {
             
             $("#mpdatepicker-modal").css({
-                "background": settings.modal_bg,
-                'position': 'fixed',
-                'left': 0,
-                'right': 0,
-                'top': 0,
-                'bottom': 0,
-                'z-index': 99999,
-                'display': 'none'
+                "background": settings.modal_bg
             });
 
 
-            $(' <style> .mpdatepicker {background: no-repeat 3px;text-align:center;background-image: url(' + settings.datepicker_bg + ');padding:6px;padding-left:25px;border:1px solid  silver;} <style>').appendTo("head");
+            $(' <style>'+
+                    '.mpdatepicker {background-image: url(' + settings.datepicker_bg + ');}'+
+                    ' <style>').appendTo("head");
 
 
         }
+        
+        
+        this.AddDatepcikerBlock = function () {
+            $("#mpdatepicker-modal").append('<div id="mpdatepicker-block"><div class="mpbtn mpfleft" >&lsaquo;</div> '+
+                    ' <div class="mpbtn mpfright" >&rsaquo;</div><div style="width:250px;margin:auto">mehr</div> </div>');
+        };
 
         this.MakeModalBg = function () {
             // check is modal exists
@@ -170,6 +171,7 @@
 
 
             $.mpdt.MakeModalBg();
+            $.mpdt.AddDatepcikerBlock();
             $.mpdt.WriteCSS();
 
         });

@@ -1,0 +1,45 @@
+#mpdatepicker-modal{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 99999;
+    /*display: none*/
+}
+.mpdatepicker {
+    background:no-repeat 3px;
+    text-align:center;
+    padding:6px;
+    padding-left:25px;
+    border:1px solid  silver;
+}
+#mpdatepicker-block {
+    text-align:center;
+    padding:10px 0;
+    border-radius: 4px 3px 0 0;
+    background:#fff;
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0px;
+    min-height:150px;
+    margin:auto;
+    width:400px;
+}
+.mpbtn{
+    padding:10px
+} 
+.mpbtn:hover{
+    background:#b1dcfb
+} 
+.mpfleft{
+    float:left;
+    font-size:30px;
+    padding-top:0;
+} 
+.mpfright{
+    float:right;
+    font-size:30px;
+    padding-top:0
+}
