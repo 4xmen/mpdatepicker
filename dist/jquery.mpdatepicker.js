@@ -1,27 +1,63 @@
+;(function ($) {
+
+    $.fn.mpdatepicker = function ( options ) {
+
+        $.mpdt = this;
+
+        var settings = $.extend({
+            text: 'Hello, World!',
+            color: null,
+            fontStyle: null,
+            complete: null
+        }, options);
 
 
-(function ($) {
-
-    $.fn.mpdatepicker = function () {
+        this.persian_month_names = ['', 'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
 
 
-        this.each(function () {
-            $(this).addClass('mpdatepicker');
-        });
-        
-        
-        
-        
-        this.persian_month_names =['','فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
-
+        /**
+         *  from parsi date by mobin ghasem pour 
+         * @param {integer} year
+         * @returns {Boolean}
+         */
         this.IsLeapYear = function (year) {
             if (((year % 4) == 0 && (year % 100) != 0) || ((year % 400) == 0) && (year % 100) == 0)
                 return true;
             else
                 return false;
-        }
+        };
 
-        this.Persian2Gregorian = function (jy, jm, jd) {
+
+        this.exploiter = function (date_txt, determ) {
+            if (determ === undefined) {
+                determ = '/';
+            }
+            var a = date_txt.split(determ);
+            
+            if (a[0].length < a[2].length) {
+                return [a[2],a[1],a[0]] ;
+            }
+            
+            return a;
+        };
+        this.imploiter = function (date_txt, determ) {
+            if (determ === undefined) {
+                determ = '/';
+            }
+           
+            return date_txt[2] +determ+date_txt[1] +determ+date_txt[2] ;
+        };
+
+
+        /**
+         * from parsi date by mobin ghasem pour 
+         * @param {Array} indate
+         * @returns {Array}
+         */
+        this.Persian2Gregorian = function (indate) {
+            var jy = indate[0];
+            var jm= indate[1];
+            var jd = indate[2];
             var gd;
             j_days_sum_month = [0, 0, 31, 62, 93, 124, 155, 186, 216, 246, 276, 306, 336, 365];
             g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -48,9 +84,20 @@
             if (gm < 10)
                 gm = '0' + gm;
             return [gy, gm, gd];
-        }
+        };
 
-        this.Gregorian2Persian = function (gy, gm, gd) {
+
+        /**
+         * from parsi date by mobin ghasem pour 
+         * @param {Array} indate
+         * @returns {Array}
+         */
+        this.Gregorian2Persian = function (indate ) {
+            
+            var gy = indate[0];
+            var gm = indate[1];
+            var gd = indate[2];
+            
             j_days_in_month = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
             g_days_sum_month = [0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
             dayofyear = g_days_sum_month[parseInt(gm)] + parseInt(gd);
@@ -72,7 +119,16 @@
             jm = ++i;
             jm = (jm < 10 ? jm = '0' + jm : jm);
             return [jy, jm, jd];
-        }
+        };
+
+
+        this.each(function () {
+            $(this).addClass('mpdatepicker');
+
+
+            console.log($.mpdt.Gregorian2Persian($.mpdt.exploiter($(this).val())));
+        });
+
 
     };
 
