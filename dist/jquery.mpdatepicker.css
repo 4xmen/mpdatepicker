@@ -16,6 +16,7 @@
     border:1px solid  silver;
 }
 #mpdatepicker-block {
+    direction: rtl;
     text-align:center;
     padding:10px 0;
     border-radius: 4px 3px 0 0;
@@ -29,6 +30,31 @@
     width:400px;
     box-shadow: 0px 0px 30px #444 ;
 }
+
+#mpdatepicker-block table{
+     display: block;
+     width: 100%;
+}
+
+.rotate {
+
+/* Safari */
+-webkit-transform: rotate(-90deg);
+
+/* Firefox */
+-moz-transform: rotate(-90deg);
+
+/* IE */
+-ms-transform: rotate(-90deg);
+
+/* Opera */
+-o-transform: rotate(-90deg);
+
+/* Internet Explorer */
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
+
 .mpbtn{
     padding:10px
 } 
