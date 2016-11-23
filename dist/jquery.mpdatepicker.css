@@ -6,6 +6,8 @@
     bottom: 0;
     z-index: 99999;
     /*display: none*/
+    font-family: 'IranSuns';
+    font-size: 11pt;
 
 }
 .mpdatepicker {
@@ -19,8 +21,8 @@
     direction: rtl;
     text-align:center;
     padding:10px 0;
-    border-radius: 4px 3px 0 0;
-    background:#fff;
+    border-radius: 4px 4px 0 0;
+    background: #fff;
     position:fixed;
     left:0;
     right:0;
@@ -29,34 +31,57 @@
     margin:auto;
     width:400px;
     box-shadow: 0px 0px 30px #444 ;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          not supported by any browser */
 }
 
 #mpdatepicker-block table{
-     display: block;
-     width: 100%;
+    width: 95% ;
+    margin: auto;
+}
+
+
+#mpdatepicker-block table th{
+    width: 14.285710%;
+    text-align: center;
+    padding: 7px;
+}
+#mpdatepicker-block table td{
+    padding:10px 7px;
+    cursor:  pointer ;
+    text-align: center;
+}
+#mpdatepicker-block table td:hover{
+    background:#b1dcfb  ;
 }
 
 .rotate {
 
-/* Safari */
--webkit-transform: rotate(-90deg);
+    /* Safari */
+    -webkit-transform: rotate(-90deg);
 
-/* Firefox */
--moz-transform: rotate(-90deg);
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
 
-/* IE */
--ms-transform: rotate(-90deg);
+    /* IE */
+    -ms-transform: rotate(-90deg);
 
-/* Opera */
--o-transform: rotate(-90deg);
+    /* Opera */
+    -o-transform: rotate(-90deg);
 
-/* Internet Explorer */
-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 }
 
 .mpbtn{
-    padding:10px
+    padding:10px;
+    cursor:  pointer ;
 } 
 .mpbtn:hover{
     background:#b1dcfb
@@ -129,3 +154,17 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     display: inline-block;
     color:gray;
 }
+
+#mpyear input{
+    width: 6em;
+    text-align: center;
+    padding:  5px;
+    border:  0;
+    outline: none ;
+}
+
+#mpyear input:focus{
+    outline:  #b1dcfb 3px solid ;
+}
+
+
