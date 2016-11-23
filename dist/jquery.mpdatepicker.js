@@ -34,16 +34,16 @@
 
 
         this.ShowMonth = function (mn, yr, pickedday) {
-           
-           
-           var content = '<tr>' ;
+
+
+            var content = '<tr>';
             for (var i = 1; i <= 31; i++) {
-                content = content +('<td>'+i+'</td>');
-                if (i % 7 == 0 ) {
-                     content = content + ('</tr></tr>');
+                content = content + ('<td>' + this.parseHindi(i) + '</td>');
+                if (i % 7 == 0) {
+                    content = content + ('</tr></tr>');
                 }
             }
-            
+
             $("#mpdatepicker-block table tbody").html(content);
 
         }
@@ -98,6 +98,20 @@
             else
                 return false;
         };
+
+
+        this.parseHindi = function (str) {
+            
+            
+            var r = str.toString();
+            var org = ['0','1','2','3','4','5','6','7','8','9'];
+            var hindi = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+            for (var ch in org) {
+                r = r.replace(org[ch],hindi[ch]);
+            }
+            
+            return r ;
+        }
 
 
         this.exploiter = function (date_txt, determ) {
