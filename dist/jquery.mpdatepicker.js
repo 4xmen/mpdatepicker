@@ -21,7 +21,7 @@
         this.getPersianWeekDay = function (jdate) {
             var tmp = (this.Persian2Gregorian(this.exploiter(jdate)));
             var dd = new Date(tmp + " 00:00:00").getDay() + 1;
-            if (dd > 6 ) {
+            if (dd > 6) {
                 dd -= 7;
             }
             return dd;
@@ -44,33 +44,59 @@
 
 
 
+
         this.gDate2Timestamp = function (stri) {
             return  Math.round(new Date(stri + " 00:00:00").getTime() / 1000);
         }
 
+        this.gTimestamp2Date = function (unix_timestamp) {
+            var date = new Date(unix_timestamp * 1000);
+            return date.getFullYear() + '/' + date.getMonth() + 1 + '/' + date.getDate();
+        }
+        this.pDate2Timestamp = function (stri) {
+            return  this.gDate2Timestamp(this.imploiter(this.Persian2Gregorian(this.exploiter(stri))));
+        }
+
+        this.pTimestamp2Date = function (unix_timestamp) {
+            var date = new Date(unix_timestamp * 1000);
+            return this.Gregorian2Persian([date.getFullYear(), date.getMonth() + 1, date.getDate()]);
+        }
+
+
+//        this.pGetLastDayMonth
+
         this.ShowMonth = function (mn, yr, pickedday) {
 
-           
-            var start_m_weekday = this.getPersianWeekDay(yr+'/'+mn+'/'+'01');
-            
-            console.log(start_m_weekday);
-            
-            
+
+
+
+            // 
+            var last_day_of_this_month = '';
+//            get frist day of month week day
+
+            var start_m_weekday = this.getPersianWeekDay(yr + '/' + mn + '/' + '01');
+
 
             var content = '<tr>';
-            
-            for (var i = 0; i < start_m_weekday; i++) {
-                content = content + ('<td class="other-month">' + 'pp' + '</td>');
+
+            // show pervius month in calander
+            for (var i = 1; i <= start_m_weekday; i++) {
+                var tmp = this.pTimestamp2Date(this.pDate2Timestamp(yr + '/' + mn + '/' + '01') - (86400 * (start_m_weekday - i + 1)));
+                content = content + ('<td class="mp-other-month mp-prv">' + this.parseHindi(tmp[2]) + '</td>');
             }
+            //show this month
             for (var i = 1; i <= 30; i++) {
                 content = content + ('<td>' + this.parseHindi(i) + '</td>');
-                if ((i+ start_m_weekday) % 7 == 0) {
+                        if ((i + start_m_weekday) % 7 == 0) {
                     content = content + ('</tr></tr>');
                 }
             }
-            var end_m_weekday = this.getPersianWeekDay(yr+'/'+mn+'/'+(i-1));
-            for (var i = 0; i < (6 -end_m_weekday); i++) {
-                content = content + ('<td class="other-month">' + this.parseHindi(i+1) + '</td>');
+
+            // last day of month week day
+            var end_m_weekday = this.getPersianWeekDay(yr + '/' + mn + '/' + (i - 1));
+            // show next month days
+            for (var i = 0; i < (6 - end_m_weekday); i++) {
+                content = content + ('<td class="mp-other-month mp-nxt">' + this.parseHindi(i + 1) + '</td>');
             }
             content += '</tr>';
             $("#mpdatepicker-block table tbody").html(content);
@@ -159,7 +185,7 @@
                 determ = '/';
             }
 
-            return date_txt[2] + determ + date_txt[1] + determ + date_txt[2];
+            return date_txt[0] + determ + date_txt[1] + determ + date_txt[2];
         };
 
 
@@ -250,7 +276,7 @@
             $.mpdt.MakeModalBg();
             $.mpdt.AddDatepcikerBlock();
             $.mpdt.WriteCSS();
-            $.mpdt.ShowMonth('09','1395');
+            $.mpdt.ShowMonth('07', '1395');
 
         });
 
