@@ -18,7 +18,19 @@
 
 
 
+        this.getPersianWeekDay = function (jdate) {
+            var tmp = (this.Persian2Gregorian(this.exploiter(jdate)));
+            var dd = new Date(tmp + " 00:00:00").getDay() + 1;
+            if (dd > 6 ) {
+                dd -= 7;
+            }
+            return dd;
+        };
+
+
         this.WriteCSS = function () {
+
+
 
             $("#mpdatepicker-modal").css({
                 "background": settings.modal_bg
@@ -33,8 +45,15 @@
         }
 
 
+
+        this.gDate2Timestamp = function (stri) {
+            return  Math.round(new Date(stri + " 00:00:00").getTime() / 1000);
+        }
+
         this.ShowMonth = function (mn, yr, pickedday) {
 
+
+            
 
             var content = '<tr>';
             for (var i = 1; i <= 31; i++) {
@@ -101,16 +120,15 @@
 
 
         this.parseHindi = function (str) {
-            
-            
+
             var r = str.toString();
-            var org = ['0','1','2','3','4','5','6','7','8','9'];
-            var hindi = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+            var org = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            var hindi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
             for (var ch in org) {
-                r = r.replace(org[ch],hindi[ch]);
+                r = r.replace(org[ch], hindi[ch]);
             }
-            
-            return r ;
+
+            return r;
         }
 
 
