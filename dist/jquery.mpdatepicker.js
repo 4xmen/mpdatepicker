@@ -30,8 +30,6 @@
 
         this.WriteCSS = function () {
 
-
-
             $("#mpdatepicker-modal").css({
                 "background": settings.modal_bg
             });
@@ -137,7 +135,7 @@
             var org = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
             var hindi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
             for (var ch in org) {
-                r = r.replace(org[ch], hindi[ch]);
+                r = r.replace(new RegExp(org[ch], 'g'), hindi[ch]);
             }
 
             return r;
