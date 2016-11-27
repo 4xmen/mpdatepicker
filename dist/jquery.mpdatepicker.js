@@ -52,17 +52,29 @@
 
         this.ShowMonth = function (mn, yr, pickedday) {
 
-
+           
+            var start_m_weekday = this.getPersianWeekDay(yr+'/'+mn+'/'+'01');
+            
+            console.log(start_m_weekday);
+            
             
 
             var content = '<tr>';
-            for (var i = 1; i <= 31; i++) {
+            
+            for (var i = 0; i < start_m_weekday; i++) {
+                content = content + ('<td class="other-month">' + 'pp' + '</td>');
+            }
+            for (var i = 1; i <= 30; i++) {
                 content = content + ('<td>' + this.parseHindi(i) + '</td>');
-                if (i % 7 == 0) {
+                if ((i+ start_m_weekday) % 7 == 0) {
                     content = content + ('</tr></tr>');
                 }
             }
-
+            var end_m_weekday = this.getPersianWeekDay(yr+'/'+mn+'/'+(i-1));
+            for (var i = 0; i < (6 -end_m_weekday); i++) {
+                content = content + ('<td class="other-month">' + this.parseHindi(i+1) + '</td>');
+            }
+            content += '</tr>';
             $("#mpdatepicker-block table tbody").html(content);
 
         }
@@ -240,7 +252,7 @@
             $.mpdt.MakeModalBg();
             $.mpdt.AddDatepcikerBlock();
             $.mpdt.WriteCSS();
-            $.mpdt.ShowMonth();
+            $.mpdt.ShowMonth('09','1395');
 
         });
 
