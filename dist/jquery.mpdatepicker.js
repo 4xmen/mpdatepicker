@@ -86,7 +86,7 @@
             }
             //show this month
             for (var i = 1; i <= 30; i++) {
-                content = content + ('<td>' + this.parseHindi(i) + '</td>');
+                content = content + ('<td  data-timestamp="'+this.pDate2Timestamp(yr + '/' + mn + '/' +i)+'">' + this.parseHindi(i) + '</td>');
                         if ((i + start_m_weekday) % 7 == 0) {
                     content = content + ('</tr></tr>');
                 }
