@@ -86,8 +86,9 @@
             }
             //show this month
             for (var i = 1; i <= 30; i++) {
-                content = content + ('<td  data-timestamp="'+this.pDate2Timestamp(yr + '/' + mn + '/' +i)+'">' + this.parseHindi(i) + '</td>');
-                        if ((i + start_m_weekday) % 7 == 0) {
+                content = content + ('<td  data-timestamp="' + this.pDate2Timestamp(yr + '/' + mn + '/' + i) 
+                        + '" data-gdate="'+this.imploiter(this.Persian2Gregorian([yr , mn , i]))+'">' + this.parseHindi(i) + '</td>');
+                if ((i + start_m_weekday) % 7 == 0) {
                     content = content + ('</tr></tr>');
                 }
             }
@@ -276,7 +277,7 @@
             $.mpdt.MakeModalBg();
             $.mpdt.AddDatepcikerBlock();
             $.mpdt.WriteCSS();
-            $.mpdt.ShowMonth('07', '1395');
+            $.mpdt.ShowMonth('09', '1395');
 
         });
 
