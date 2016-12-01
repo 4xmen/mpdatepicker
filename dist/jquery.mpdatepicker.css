@@ -5,9 +5,9 @@
     top: 0;
     bottom: 0;
     z-index: 99999;
-    /*display: none*/
     font-family: 'IranSuns';
     font-size: 11pt;
+    display: none
 
 }
 .mpdatepicker {
@@ -50,12 +50,31 @@
     width: 14.285710%;
     text-align: center;
     padding: 7px;
+    font-size: 900 ;
 }
 #mpdatepicker-block table td{
-    padding:10px 7px;
+    padding:7px 3px;
     cursor:  pointer ;
     text-align: center;
+    border:  solid 2px transparent;
 }
+
+#mpdatepicker-block table td.mp-other-month{
+     color: gray;
+}
+
+
+#mpdatepicker-block table td.selected{
+    border:  solid 2px #3399ff;
+    border-radius: 3px;
+}
+
+#mpdatepicker-block table td.today{
+        font-weight: 900;
+        text-shadow: 0px 0px 3px #333 ;
+}
+
+
 #mpdatepicker-block table td:hover{
     background:#b1dcfb  ;
 }
@@ -82,6 +101,8 @@
 .mpbtn{
     padding:10px;
     cursor:  pointer ;
+    font-family: 'arial';
+    padding-bottom: 4px;
 } 
 .mpbtn:hover{
     background:#b1dcfb
@@ -101,6 +122,18 @@
     /*width:140px;*/
     margin:5px auto;
     /*border:1px solid silver;*/
+}
+
+.mp-picked{
+    border: 2px solid  #3366ff !important;
+    border-radius: 3px;
+}
+
+.mp-today{
+    font-weight: 900;
+    color: #3366ff;
+    text-shadow: 1px 1px 2px #000;
+    /*box-shadow: inset #3366ff 0 0 4px;*/
 }
 
 #mpmonth{
@@ -123,7 +156,7 @@
     background:  #fff ;
     list-style:none;
     padding: 5px 0;
-    bottom:-100px;
+    bottom:-200px;
     right:-20px;
     border-radius: 4px;
     box-shadow: 1px 1px 7px #000 ;
@@ -168,3 +201,27 @@
 }
 
 
+.mp-footer{
+    display: block;
+    padding: 0 5% ;
+}
+
+.mp-footer a{
+    width: 30%;
+    display: inline-block;
+    padding: 7px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing:border-box;
+    cursor: pointer;
+}
+
+.mp-footer a#mp-close:hover{
+    background: rgba(255,128,0,0.3) ;
+}
+.mp-footer a#mp-today:hover{
+    background: rgba(0,255,0,0.3) ;
+}
+.mp-footer a#mp-clear:hover{
+    background: rgba(255,0,0,0.3) ;
+}
