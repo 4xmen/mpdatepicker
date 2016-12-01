@@ -38,6 +38,7 @@
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                           not supported by any browser */
+    max-width: 100%;
 }
 
 #mpdatepicker-block table{
@@ -60,7 +61,7 @@
 }
 
 #mpdatepicker-block table td.mp-other-month{
-     color: gray;
+    color: gray;
 }
 
 
@@ -70,8 +71,8 @@
 }
 
 #mpdatepicker-block table td.today{
-        font-weight: 900;
-        text-shadow: 0px 0px 3px #333 ;
+    font-weight: 900;
+    text-shadow: 0px 0px 3px #333 ;
 }
 
 
@@ -162,66 +163,82 @@
     box-shadow: 1px 1px 7px #000 ;
 }
 
-#mpmonth ul li{
-    padding: 5px;
-    width: 120px;
-    font-weight: 100;
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-}
-#mpmonth ul li:hover{
-    border-bottom: 2px solid #13a7c7;
-    background: #b1dcfb  ;
+
+/*-450px width*/
+@media ( max-height : 500px ) {
+
+    #mpmonth ul{
+        width: 250px;
+    }
+    #mpmonth ul li{ 
+        width: 47%;
+        float: right;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing:border-box;
+    }
 }
 
-#mpmonth span{
-    display: block;
-    text-align: center;
-    cursor: pointer;
-}
+    #mpmonth ul li{
+        padding: 5px;
+        width: 120px;
+        font-weight: 100;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+    }
+    #mpmonth ul li:hover{
+        border-bottom: 2px solid #13a7c7;
+        background: #b1dcfb  ;
+    }
 
-#mpyear{
-    width: 25%;
-    text-align: center;
-    padding: 5px;
-    display: inline-block;
-    color:gray;
-}
+    #mpmonth span{
+        display: block;
+        text-align: center;
+        cursor: pointer;
+    }
 
-#mpyear input{
-    width: 6em;
-    text-align: center;
-    padding:  5px;
-    border:  0;
-    outline: none ;
-}
+    #mpyear{
+        width: 25%;
+        text-align: center;
+        padding: 5px;
+        display: inline-block;
+        color:gray;
+    }
 
-#mpyear input:focus{
-    outline:  #b1dcfb 3px solid ;
-}
+    #mpyear input{
+        width: 6em;
+        text-align: center;
+        padding:  5px;
+        border:  0;
+        outline: none ;
+    }
+
+    #mpyear input:focus{
+        outline:  #b1dcfb 3px solid ;
+    }
 
 
-.mp-footer{
-    display: block;
-    padding: 0 5% ;
-}
+    .mp-footer{
+        display: block;
+        padding: 0 5% ;
+    }
 
-.mp-footer a{
-    width: 30%;
-    display: inline-block;
-    padding: 7px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing:border-box;
-    cursor: pointer;
-}
+    .mp-footer a{
+        width: 30%;
+        display: inline-block;
+        padding: 7px;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing:border-box;
+        cursor: pointer;
+    }
 
-.mp-footer a#mp-close:hover{
-    background: rgba(255,128,0,0.3) ;
-}
-.mp-footer a#mp-today:hover{
-    background: rgba(0,255,0,0.3) ;
-}
-.mp-footer a#mp-clear:hover{
-    background: rgba(255,0,0,0.3) ;
-}
+    .mp-footer a#mp-close:hover{
+        background: rgba(255,128,0,0.3) ;
+    }
+    .mp-footer a#mp-today:hover{
+        background: rgba(0,255,0,0.3) ;
+    }
+    .mp-footer a#mp-clear:hover{
+        background: rgba(255,0,0,0.3) ;
+    }
