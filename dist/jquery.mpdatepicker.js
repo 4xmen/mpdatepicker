@@ -68,17 +68,19 @@
             now = this.pDate2Timestamp(yr + '/' + mn + '/' + (29));
             for (var i = 1; i < 4; i++) {
                 now += 86400;
-                var tmp = this.pTimestamp2Date(now);
+                var tmp = this.exploiter(this.pTimestamp2Date(now));
                 if (tmp[2] < last) {
                     return last;
                 } else {
                     last = tmp[2];
                 }
             }
+            return last;
         }
 
         this.ShowMonth = function (mn, yr, pickedday) {
 
+            console.log(mn+'-'+yr+'-'+ pickedday);
             $.mpdt.thisMonth = parseInt(mn);
             $.mpdt.selectedDate = pickedday;
             $("#mpmonth span").text(this.persian_month_names[parseInt(mn)]);
@@ -88,7 +90,7 @@
             window.mp_last_month = parseInt(mn);
             // 
             var last_day_of_this_month = this.pGetLastDayMonth(mn, yr);
-
+            console.log(last_day_of_this_month);
 //            get frist day of month week day
 
             var start_m_weekday = this.getPersianWeekDay(yr + '/' + mn + '/' + '01');
@@ -118,8 +120,9 @@
                 // class can add
                 var cls = 'selectable';
 
+//                console.log(pickedday);
                 // is selected date
-                if (yr + '/' + mn + '/' + i == pickedday) {
+                if (yr + '/' + (mn.toString().length==1?'0'+mn:mn) + '/' + (i.toString().length==1?'0'+i:i)== pickedday) {
                     cls = cls + ' mp-picked';
                 }
                 // is today
@@ -151,11 +154,26 @@
                 $.mpdt.targetPicker.val($(this).attr('title'));
                 $("#mpdatepicker-modal").fadeOut(200);
             });
-            
+
+            $("#mp-clear").bind('click', function () {
+                $.mpdt.targetPicker.val('');
+                $.mpdt.selectedDate = '';
+                $("#mpdatepicker-modal").fadeOut(200);
+            });
+            $("#mp-today").bind('click', function () {
+                var dtmp = new Date();
+                var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
+                $.mpdt.targetPicker.val(today);
+                $("#mpdatepicker-modal").fadeOut(200);
+            });
+            $("#mp-close").bind('click', function () {
+                $("#mpdatepicker-modal").fadeOut(200);
+            });
+
             $(".mp-prv").unbind('click.prvmn');
             $(".mp-nxt").unbind('click.nxtmn');
             $(".mp-prv").bind('click.prvmn', function () {
-                var yyyy  = parseInt($("#mpyear input").val()) ;
+                var yyyy = parseInt($("#mpyear input").val());
                 if ($.mpdt.thisMonth - 1 == 0) {
                     $.mpdt.thisMonth = 13;
                     yyyy++;
@@ -164,10 +182,10 @@
                 $.mpdt.ShowMonth($.mpdt.thisMonth - 1, yyyy, $.mpdt.selectedDate);
             });
             $(".mp-nxt").bind('click.nxtmn', function () {
-                var yyyy  = parseInt($("#mpyear input").val()) ;
-                if ($.mpdt.thisMonth +1 == 13) {
+                var yyyy = parseInt($("#mpyear input").val());
+                if ($.mpdt.thisMonth + 1 == 13) {
                     $.mpdt.thisMonth = 0;
-                    yyyy-- ;
+                    yyyy--;
                 }
 //                 console.log($.mpdt.thisMonth,$("#mpyear input").val());
                 $.mpdt.ShowMonth($.mpdt.thisMonth + 1, yyyy, $.mpdt.selectedDate);
@@ -182,7 +200,7 @@
             $("#mpdatepicker-modal").append('<div id="mpdatepicker-block"><div class="mpbtn mpfleft mp-nxt" >&rsaquo;</div> ' +
                     ' <div class="mpbtn mpfright mp-prv" >&lsaquo;</div><div class="mpheader"><div id="mpmonth"> <ul></ul> <span> اردیبهشت </span>  </div> <div id="mpyear">  <input type="number" value="1396" /> </div>   </div> ' +
                     '<table> <thead> <th> ش </th><th> ی </th><th> د </th><th> س  </th><th> چ </th><th> پ </th><th> آ</th> </thead> <tbody></tbody> </table>' +
-                    '<div class="mp-footer"> <a id="mp-clear"> X </a> <a id="mp-today"> امروز </a> <a id="mp-close"> ___ </a> </div></div>');
+                    '<div class="mp-footer"> <a id="mp-clear"> تمیز کردن </a> <a id="mp-today"> امروز </a> <a id="mp-close"> بستن </a> </div></div>');
 
             // add persian month ro select in cal
             $(this.persian_month_names).each(function (k, v) {
