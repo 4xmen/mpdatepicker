@@ -1,3 +1,10 @@
+/**
+ * @name materialize persian date picker
+ * @version 0.1
+ * @copyright 4xmen.ir (c) 2016
+ * @license GPL v3
+ */
+
 ;
 (function ($) {
 

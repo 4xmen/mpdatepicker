@@ -49,14 +49,14 @@
 
 #mpdatepicker-block table th{
     width: 14.285710%;
-    text-align: center;
+    text-align: center !important;
     padding: 7px;
-    font-size: 900 ;
+    font-weight: 900 ;
 }
 #mpdatepicker-block table td{
     padding:7px 3px;
     cursor:  pointer ;
-    text-align: center;
+    text-align: center !important;
     border:  solid 2px transparent;
 }
 
@@ -179,66 +179,66 @@
     }
 }
 
-    #mpmonth ul li{
-        padding: 5px;
-        width: 120px;
-        font-weight: 100;
-        border-bottom: 2px solid transparent;
-        cursor: pointer;
-    }
-    #mpmonth ul li:hover{
-        border-bottom: 2px solid #13a7c7;
-        background: #b1dcfb  ;
-    }
+#mpmonth ul li{
+    padding: 5px;
+    width: 120px;
+    font-weight: 100;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+#mpmonth ul li:hover{
+    border-bottom: 2px solid #13a7c7;
+    background: #b1dcfb  ;
+}
 
-    #mpmonth span{
-        display: block;
-        text-align: center;
-        cursor: pointer;
-    }
+#mpmonth span{
+    display: block;
+    text-align: center;
+    cursor: pointer;
+}
 
-    #mpyear{
-        width: 25%;
-        text-align: center;
-        padding: 5px;
-        display: inline-block;
-        color:gray;
-    }
+#mpyear{
+    width: 25%;
+    text-align: center;
+    padding: 5px;
+    display: inline-block;
+    color:gray;
+}
 
-    #mpyear input{
-        width: 6em;
-        text-align: center;
-        padding:  5px;
-        border:  0;
-        outline: none ;
-    }
+#mpyear input{
+    width: 6em;
+    text-align: center;
+    padding:  5px;
+    border:  0;
+    outline: none ;
+}
 
-    #mpyear input:focus{
-        outline:  #b1dcfb 3px solid ;
-    }
+#mpyear input:focus{
+    outline:  #b1dcfb 3px solid ;
+}
 
 
-    .mp-footer{
-        display: block;
-        padding: 0 5% ;
-    }
+.mp-footer{
+    display: block;
+    padding: 0 5% ;
+}
 
-    .mp-footer a{
-        width: 30%;
-        display: inline-block;
-        padding: 7px;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        box-sizing:border-box;
-        cursor: pointer;
-    }
+.mp-footer a{
+    width: 30%;
+    display: inline-block;
+    padding: 7px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing:border-box;
+    cursor: pointer;
+}
 
-    .mp-footer a#mp-close:hover{
-        background: rgba(255,128,0,0.3) ;
-    }
-    .mp-footer a#mp-today:hover{
-        background: rgba(0,255,0,0.3) ;
-    }
-    .mp-footer a#mp-clear:hover{
-        background: rgba(255,0,0,0.3) ;
-    }
+.mp-footer a.mp-close:hover{
+    background: rgba(255,128,0,0.3) ;
+}
+.mp-footer a.mp-today:hover{
+    background: rgba(0,255,0,0.3) ;
+}
+.mp-footer a.mp-clear:hover{
+    background: rgba(255,0,0,0.3) ;
+}
