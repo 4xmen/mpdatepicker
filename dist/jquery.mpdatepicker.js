@@ -80,7 +80,6 @@
 
         this.ShowMonth = function (mn, yr, pickedday) {
 
-            console.log(mn+'-'+yr+'-'+ pickedday);
             $.mpdt.thisMonth = parseInt(mn);
             $.mpdt.selectedDate = pickedday;
             $("#mpmonth span").text(this.persian_month_names[parseInt(mn)]);
@@ -90,7 +89,6 @@
             window.mp_last_month = parseInt(mn);
             // 
             var last_day_of_this_month = this.pGetLastDayMonth(mn, yr);
-            console.log(last_day_of_this_month);
 //            get frist day of month week day
 
             var start_m_weekday = this.getPersianWeekDay(yr + '/' + mn + '/' + '01');
@@ -120,13 +118,11 @@
                 // class can add
                 var cls = 'selectable';
 
-//                console.log(pickedday);
                 // is selected date
-                if (yr + '/' + (mn.toString().length==1?'0'+mn:mn) + '/' + (i.toString().length==1?'0'+i:i)== pickedday) {
+                if (yr + '/' + (mn.toString().length == 1 ? '0' + mn : mn) + '/' + (i.toString().length == 1 ? '0' + i : i) == pickedday) {
                     cls = cls + ' mp-picked';
                 }
                 // is today
-//                console.log(today +'||' + yr + '/' + (mn.toString().length == 1?'0'+mp:mp) + '/' +(i.toString().length == 1?'0'+i:i));
                 if (today == yr + '/' + (mn.toString().length == 1 ? '0' + mn : mn) + '/' + (i.toString().length == 1 ? '0' + i : i)) {
                     cls = cls + ' mp-today';
                 }
@@ -152,33 +148,25 @@
 
             $(".selectable").bind('click', function () {
                 $.mpdt.targetPicker.val($(this).attr('title'));
+                if ($.mpdt.targetPicker.attr('data-gtarget') !== undefined) {
+                    $($.mpdt.targetPicker.attr('data-gtarget')).val($(this).attr('data-gdate'))
+                }
                 $("#mpdatepicker-modal").fadeOut(200);
             });
 
-            $("#mp-clear").bind('click', function () {
-                $.mpdt.targetPicker.val('');
-                $.mpdt.selectedDate = '';
-                $("#mpdatepicker-modal").fadeOut(200);
-            });
-            $("#mp-today").bind('click', function () {
-                var dtmp = new Date();
-                var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
-                $.mpdt.targetPicker.val(today);
-                $("#mpdatepicker-modal").fadeOut(200);
-            });
-            $("#mp-close").bind('click', function () {
-                $("#mpdatepicker-modal").fadeOut(200);
-            });
+           
 
             $(".mp-prv").unbind('click.prvmn');
             $(".mp-nxt").unbind('click.nxtmn');
+            $(".mp-close").unbind('click.clk');
+            $(".mp-clear").unbind('click.clk');
+            $(".mp-today").unbind('click.clk');
             $(".mp-prv").bind('click.prvmn', function () {
                 var yyyy = parseInt($("#mpyear input").val());
                 if ($.mpdt.thisMonth - 1 == 0) {
                     $.mpdt.thisMonth = 13;
                     yyyy++;
                 }
-//                console.log($.mpdt.thisMonth,$("#mpyear input").val());
                 $.mpdt.ShowMonth($.mpdt.thisMonth - 1, yyyy, $.mpdt.selectedDate);
             });
             $(".mp-nxt").bind('click.nxtmn', function () {
@@ -187,8 +175,22 @@
                     $.mpdt.thisMonth = 0;
                     yyyy--;
                 }
-//                 console.log($.mpdt.thisMonth,$("#mpyear input").val());
                 $.mpdt.ShowMonth($.mpdt.thisMonth + 1, yyyy, $.mpdt.selectedDate);
+            });
+            
+             $(".mp-clear").bind('click.clk', function () {
+                $.mpdt.targetPicker.val('');
+                $.mpdt.selectedDate = '';
+                $("#mpdatepicker-modal").fadeOut(200);
+            });
+            $(".mp-today").bind('click.clk', function () {
+                var dtmp = new Date();
+                var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
+                $.mpdt.targetPicker.val(today);
+                $("#mpdatepicker-modal").fadeOut(200);
+            });
+            $(".mp-close").bind('click.clk', function () {
+                $("#mpdatepicker-modal").fadeOut(200);
             });
 
         }
@@ -200,20 +202,23 @@
             $("#mpdatepicker-modal").append('<div id="mpdatepicker-block"><div class="mpbtn mpfleft mp-nxt" >&rsaquo;</div> ' +
                     ' <div class="mpbtn mpfright mp-prv" >&lsaquo;</div><div class="mpheader"><div id="mpmonth"> <ul></ul> <span> اردیبهشت </span>  </div> <div id="mpyear">  <input type="number" value="1396" /> </div>   </div> ' +
                     '<table> <thead> <th> ش </th><th> ی </th><th> د </th><th> س  </th><th> چ </th><th> پ </th><th> آ</th> </thead> <tbody></tbody> </table>' +
-                    '<div class="mp-footer"> <a id="mp-clear"> تمیز کردن </a> <a id="mp-today"> امروز </a> <a id="mp-close"> بستن </a> </div></div>');
+                    '<div class="mp-footer"> <a class="mp-clear"> تمیز کردن </a> <a class="mp-today"> امروز </a> <a class="mp-close"> بستن </a> </div></div>');
 
+//             console.log($("#mpmonth ul li").length);
             // add persian month ro select in cal
-            $(this.persian_month_names).each(function (k, v) {
-                if (k !== 0) {
-                    $("#mpmonth ul").append("<li data-id='" + k + "'>" + this + " </li>");
-                }
-            });
+                
+                $(this.persian_month_names).each(function (k, v) {
+                    if (k !== 0  ) {
+                        $("#mpmonth ul").append("<li data-id='" + k + "'>" + this + " </li>");
+                    }
+                });
+                
 
             // set select month event
             $("#mpmonth ul li").bind('click.select', function () {
                 var text = $.trim($(this).text());
                 $("#mpmonth span").text(text);
-                $.mpdt.ShowMonth($(this).data('id'), $("#mpyear input").val(), $.mpdt.selectedDate);
+                $.mpdt.ShowMonth($(this).attr('data-id'), $("#mpyear input").val(), $.mpdt.selectedDate);
                 $("#mpmonth ul").slideUp(100);
             });
             // set select month event
@@ -234,7 +239,10 @@
             if ($("#mpdatepicker-modal").length == 0) {
                 //it doesn't exist
                 $('body').append('<div id="mpdatepicker-modal" ></div>');
+                $.mpdt.AddDatepcikerBlock();
             }
+            
+            
 
             $("#mpdatepicker-modal").bind('click.close', function (e) {
                 if ($(e.target).is(this)) {
@@ -379,6 +387,12 @@
 
             $(this).bind('focus.open', function () {
                 $("#mpdatepicker-modal").fadeIn(400);
+
+                if ($(this).val() == '') {
+                    var dtmp = new Date();
+                    var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
+                    $(this).val(today);
+                }
                 var vd = $.mpdt.exploiter($(this).val());
                 $.mpdt.ShowMonth(vd[1], vd[0], $(this).val());
                 $.mpdt.selectedDate = $(this).val();
@@ -387,11 +401,10 @@
 
             });
 
-//            console.log($.mpdt.Gregorian2Persian($.mpdt.exploiter($(this).val())));
 
 
             $.mpdt.MakeModalBg();
-            $.mpdt.AddDatepcikerBlock();
+            
             $.mpdt.WriteCSS();
 
 //            $.mpdt.ShowMonth('09', '1395','1395/09/12');
