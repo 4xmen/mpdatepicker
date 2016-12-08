@@ -37,7 +37,7 @@
 
 
             $(' <style>' +
-                    '.mpdatepicker {background-image: url(' + settings.datepicker_bg + ');}' +
+                    '.mpdatepicker {background-image: url(' + settings.datepicker_bg + ') !important;}' +
                     ' <style>').appendTo("head");
 
 
@@ -392,9 +392,14 @@
                 if ($(this).val() == '') {
                     var dtmp = new Date();
                     var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
-                    $(this).val(today);
+//                    $(this).val(today);
+                    var vd = $.mpdt.exploiter(today);
+                }else{
+                    
+                    var vd = $.mpdt.exploiter($(this).val());
                 }
-                var vd = $.mpdt.exploiter($(this).val());
+                
+//                console.log(vd);
                 $.mpdt.ShowMonth(vd[1], vd[0], $(this).val());
                 $.mpdt.selectedDate = $(this).val();
                 $.mpdt.targetPicker = $(this);
@@ -408,7 +413,6 @@
             
             $.mpdt.WriteCSS();
 
-//            $.mpdt.ShowMonth('09', '1395','1395/09/12');
 
         });
 
