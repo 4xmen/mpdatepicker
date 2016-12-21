@@ -8,7 +8,6 @@
     font-family: 'IranSuns';
     font-size: 11pt;
     display: none
-
 }
 .mpdatepicker {
     background:no-repeat 3px;
@@ -241,4 +240,9 @@
 }
 .mp-footer a.mp-clear:hover{
     background: rgba(255,0,0,0.3) ;
+}
+
+.mp-footer input{
+    width: 3.3em;
+    text-align: center;
 }
