@@ -296,11 +296,14 @@
 
 
         this.exploiter = function (date_txt, determ) {
-            if (determ === undefined) {
+            if (typeof determ === 'undefined') {
                 determ = '/';
             }
             var a = date_txt.split(determ);
-
+          
+            if (typeof a[2] === 'undefined') {
+                return a ;
+            }
             if (a[0].length < a[2].length) {
                 return [a[2], a[1], a[0]];
             }
@@ -402,7 +405,7 @@
         this.each(function () {
             $(this).addClass('mpdatepicker');
 
-            console.log(settings.timePicker);
+//            console.log(settings.timePicker);
             if (settings.timePicker) {
                 $(this).addClass('mptimepick');
             }
@@ -410,21 +413,19 @@
 
             $(this).bind('focus.open', function () {
                 $("#mpdatepicker-modal").fadeIn(400);
-
-                if ($(this).val() == '') {
-                    
-
-                    
+                var dt = $.trim($(this).val());
+                if (dt.length !== 10) {
                     var dtmp = new Date();
                     var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
 //                    $(this).val(today);
                     var vd = $.mpdt.exploiter(today);
                 } else {
 
-                    var newval = $.mpdt.exploiter(' ',$(this).val());
-                    
+                    console.log('x'+dt+'x');
+                    var newval = $.mpdt.exploiter(' ',dt);
                     if (newval.length == 1) {
-                        var currentDay = $(this).val() ;
+                        
+                        var currentDay = dt ;
                     }else {
                         var currentDay = newval[1];
                     }
