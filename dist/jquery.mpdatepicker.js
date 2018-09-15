@@ -150,9 +150,13 @@
 
 
             $(".selectable").bind('click', function () {
-                $.mpdt.targetPicker.val($(this).attr('title'));
-                if ($.mpdt.targetPicker.attr('data-gtarget') !== undefined) {
-                    $($.mpdt.targetPicker.attr('data-gtarget')).val($(this).attr('data-gdate'))
+                try {
+                    $.mpdt.targetPicker.val($(this).attr('title'));
+                    if ($.mpdt.targetPicker.attr('data-gtarget') !== undefined) {
+                        $($.mpdt.targetPicker.attr('data-gtarget')).val($(this).attr('data-gdate'))
+                    }
+                } catch (e) {
+                    console.warn('target err');
                 }
 
 
