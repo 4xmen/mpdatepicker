@@ -101,7 +101,6 @@
 
 //            today 
             var dtmp = new Date();
-
             var today = this.imploiter(this.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
 
             var content = '<tr>';
@@ -126,8 +125,9 @@
                     cls = cls + ' mp-picked';
                 }
                 // is today
-                if (today == yr + '/' + (mn.toString().length == 1 ? '0' + mn : mn) + '/' + (i.toString().length == 1 ? '0' + i : i)) {
-                    cls = cls + ' mp-today';
+                var tdCheck = this.Persian2Gregorian([yr, mn, i]);
+                if (dtmp.getDate() == parseInt(tdCheck[2]) && dtmp.getMonth() + 1 == parseInt(tdCheck[1]) && dtmp.getFullYear() == parseInt(tdCheck[0])) {
+                    cls = cls + ' mp-today-td';
                 }
                 content = content + ('<td class="' + cls + '"  data-timestamp="' + tmsmp
                         + '" data-gdate="' + this.imploiter(this.Persian2Gregorian([yr, mn, i]), settings.gSpliter) + '" title="' +
@@ -396,26 +396,26 @@
             }
             return [jy.toString(), jm, jd];
         };
-        
-        this.handleCal = function(dt){
+
+        this.handleCal = function (dt) {
             if (dt.length !== 10) {
-                    var dtmp = new Date();
-                    var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
+                var dtmp = new Date();
+                var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
 //                    $(this).val(today);
-                    var vd = $.mpdt.exploiter(today);
+                var vd = $.mpdt.exploiter(today);
+            } else {
+
+                var newval = $.mpdt.exploiter(' ', dt);
+                if (newval.length == 1) {
+
+                    var currentDay = dt;
                 } else {
-
-                    var newval = $.mpdt.exploiter(' ', dt);
-                    if (newval.length == 1) {
-
-                        var currentDay = dt;
-                    } else {
-                        var currentDay = newval[1];
-                    }
-                    var vd = $.mpdt.exploiter(currentDay);
+                    var currentDay = newval[1];
                 }
-                
-            return vd ;
+                var vd = $.mpdt.exploiter(currentDay);
+            }
+
+            return vd;
         }
 
 
@@ -425,12 +425,12 @@
             if (settings.timePicker) {
                 $(this).addClass('mptimepick');
             }
-            
+
 
             $(this).bind('focus.open', function () {
                 $("#mpdatepicker-modal").fadeIn(400);
                 var dt = $.trim($(this).val());
-                
+
                 var vd = $.mpdt.handleCal(dt);
                 if ($(this).hasClass('mptimepick')) {
                     $(".mptimepicker").show();
@@ -457,12 +457,12 @@
         this.attachCal = function (elementId) {
             var element = $('#mpdatepicker-block').detach();
             $(elementId).append(element);
-             var vd = $.mpdt.handleCal('');
+            var vd = $.mpdt.handleCal('');
             $('#mpdatepicker-block').addClass('static');
-             $(".mptimepicker, .mp-clear, .mp-close, .mp-today").remove();
+            $(".mptimepicker, .mp-clear, .mp-close, .mp-today").remove();
 
-                $.mpdt.ShowMonth(vd[1], vd[0], '');
-                $.mpdt.selectedDate ='';
+            $.mpdt.ShowMonth(vd[1], vd[0], '');
+            $.mpdt.selectedDate = '';
         }
 
         return this;

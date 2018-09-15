@@ -48,6 +48,7 @@
     left: auto;
     right: auto;
     bottom: auto;
+    direction: rtl;
 }
 
 #mpdatepicker-block table{
@@ -139,7 +140,7 @@
     border-radius: 3px;
 }
 
-.mp-today{
+.mp-today-td,.mp-today{
     font-weight: 900;
     color: #3366ff;
     text-shadow: 1px 1px 2px #000;
