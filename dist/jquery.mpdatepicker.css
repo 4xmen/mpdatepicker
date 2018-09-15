@@ -17,12 +17,13 @@
     border:1px solid  silver;
 }
 #mpdatepicker-block {
+    font-family: 'VazirCodeX';
     direction: rtl;
     text-align:center;
     padding:10px 0;
     border-radius: 4px 4px 0 0;
     background: #fff;
-    position:fixed;
+    position: fixed;
     left:0;
     right:0;
     bottom:0px;
@@ -38,6 +39,15 @@
     user-select: none; /* Non-prefixed version, currently
                           not supported by any browser */
     max-width: 100%;
+}
+
+#mpdatepicker-block.static {
+    position: static;
+    margin: inherit;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
 }
 
 #mpdatepicker-block table{

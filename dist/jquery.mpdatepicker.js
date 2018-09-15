@@ -103,7 +103,7 @@
             var dtmp = new Date();
 
             var today = this.imploiter(this.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
-
+            console.log(today);
 
             var content = '<tr>';
 
@@ -155,13 +155,13 @@
                 if ($.mpdt.targetPicker.attr('data-gtarget') !== undefined) {
                     $($.mpdt.targetPicker.attr('data-gtarget')).val($(this).attr('data-gdate'))
                 }
-                
-                
+
+
 //                console.log($($.mpdt.targetPicker.attr('data-gtarget')).hasClass('mptimepick'));
                 if ($.mpdt.targetPicker.hasClass('mptimepick')) {
 //                    console.log($("#mp-hor").val() + ':' +$("#mp-min").val() + ':' + $("#mp-sec").val() );
-                    $.mpdt.targetPicker.val(  
-                            $.mpdt.make2number(parseInt( $("#mp-hour").val()) ) + ':' +$.mpdt.make2number(parseInt( $("#mp-min").val())) + ':' + $.mpdt.make2number(parseInt( $("#mp-sec").val())) + '  '+
+                    $.mpdt.targetPicker.val(
+                            $.mpdt.make2number(parseInt($("#mp-hour").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-min").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-sec").val())) + '  ' +
                             $.mpdt.targetPicker.val()
                             );
                 }
@@ -217,8 +217,8 @@
                     ' <div class="mpbtn mpfright mp-prv" >&lsaquo;</div><div class="mpheader"><div id="mpmonth"> <ul></ul> <span> اردیبهشت </span>  </div> <div id="mpyear">  <input type="number" value="1396" /> </div>   </div> ' +
                     '<table> <thead> <th> ش </th><th> ی </th><th> د </th><th> س  </th><th> چ </th><th> پ </th><th> ج</th> </thead> <tbody></tbody> </table>' +
                     '<div class="mp-footer"> ' +
-                    '<div class="mptimepicker"> <input value="0" type="number" id="mp-sec"  min="0"  max="59"  /> : '+
-                    ' <input value="0" type="number" id="mp-min"  min="0"  max="59"  />  :'+
+                    '<div class="mptimepicker"> <input value="0" type="number" id="mp-sec"  min="0"  max="59"  /> : ' +
+                    ' <input value="0" type="number" id="mp-min"  min="0"  max="59"  />  :' +
                     ' <input value="0" type="number" id="mp-hour"  min="0"  max="23" /> </div>'
                     + ' <a class="mp-clear"> پاک کردن </a> <a class="mp-today"> امروز </a> <a class="mp-close"> بستن </a> </div></div>');
 
@@ -300,9 +300,9 @@
                 determ = '/';
             }
             var a = date_txt.split(determ);
-          
+
             if (typeof a[2] === 'undefined') {
-                return a ;
+                return a;
             }
             if (a[0].length < a[2].length) {
                 return [a[2], a[1], a[0]];
@@ -400,6 +400,28 @@
             }
             return [jy.toString(), jm, jd];
         };
+        
+        this.handleCal = function(dt){
+            if (dt.length !== 10) {
+                    var dtmp = new Date();
+                    var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
+//                    $(this).val(today);
+                    var vd = $.mpdt.exploiter(today);
+                } else {
+
+                    console.log('x' + dt + 'x');
+                    var newval = $.mpdt.exploiter(' ', dt);
+                    if (newval.length == 1) {
+
+                        var currentDay = dt;
+                    } else {
+                        var currentDay = newval[1];
+                    }
+                    var vd = $.mpdt.exploiter(currentDay);
+                }
+                
+            return vd ;
+        }
 
 
         this.each(function () {
@@ -409,32 +431,16 @@
             if (settings.timePicker) {
                 $(this).addClass('mptimepick');
             }
-
+            
 
             $(this).bind('focus.open', function () {
                 $("#mpdatepicker-modal").fadeIn(400);
                 var dt = $.trim($(this).val());
-                if (dt.length !== 10) {
-                    var dtmp = new Date();
-                    var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
-//                    $(this).val(today);
-                    var vd = $.mpdt.exploiter(today);
-                } else {
-
-                    console.log('x'+dt+'x');
-                    var newval = $.mpdt.exploiter(' ',dt);
-                    if (newval.length == 1) {
-                        
-                        var currentDay = dt ;
-                    }else {
-                        var currentDay = newval[1];
-                    }
-                    var vd = $.mpdt.exploiter(currentDay);
-                }
                 
-                if ($(this).hasClass('mptimepick')){
+                var vd = $.mpdt.handleCal(dt);
+                if ($(this).hasClass('mptimepick')) {
                     $(".mptimepicker").show();
-                }else{
+                } else {
                     $(".mptimepicker").hide();
                 }
 
@@ -455,6 +461,20 @@
 
         });
 
+        this.attachCal = function (elementId) {
+            console.log(elementId);
+            var element = $('#mpdatepicker-block').detach();
+            $(elementId).append(element);
+             var vd = $.mpdt.handleCal('');
+            $('#mpdatepicker-block').addClass('static');
+             $(".mptimepicker, .mp-clear, .mp-close, .mp-today").remove();
+
+//                console.log(vd);
+                $.mpdt.ShowMonth(vd[1], vd[0], '');
+                $.mpdt.selectedDate ='';
+        }
+
+        return this;
 
     };
 

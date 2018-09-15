@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Materialize Persian date picker </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--include jquery-->
+        <script type="text/javascript" src="../dist/jquery.min.js"></script>
+        <!--include additinal font-->
+        <link type="text/css" rel="stylesheet" href="http://4xmen.ir/cdn/VazirCodeX.css" />
+        <!--incluxe plugin--> 
+        <script type="text/javascript" src="../dist/jquery.mpdatepicker.js"></script>
+        <link type="text/css" rel="stylesheet" href="../dist/jquery.mpdatepicker.css" />
+        <!--static calender css-->
+        <style type="text/css" >
+            .sample-date-picker{
+                display: none;
+            }
+        </style>
+        <!--static calender css-->
+    </head>
+    <body>
+
+        <div id="static-cal">
+            <input type="text" placeholder="datepciker" class="sample-date-picker" value="" />
+        </div> 
+        <!--use plugin-->
+        <script type="text/javascript">
+            $(function () {
+                var mpdatepicker = $(".sample-date-picker").mpdatepicker();
+                mpdatepicker.attachCal("#static-cal");
+            });
+        </script>
+    </body>
+</html>
