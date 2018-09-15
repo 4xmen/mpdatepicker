@@ -103,7 +103,6 @@
             var dtmp = new Date();
 
             var today = this.imploiter(this.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
-            console.log(today);
 
             var content = '<tr>';
 
@@ -157,9 +156,7 @@
                 }
 
 
-//                console.log($($.mpdt.targetPicker.attr('data-gtarget')).hasClass('mptimepick'));
                 if ($.mpdt.targetPicker.hasClass('mptimepick')) {
-//                    console.log($("#mp-hor").val() + ':' +$("#mp-min").val() + ':' + $("#mp-sec").val() );
                     $.mpdt.targetPicker.val(
                             $.mpdt.make2number(parseInt($("#mp-hour").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-min").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-sec").val())) + '  ' +
                             $.mpdt.targetPicker.val()
@@ -222,7 +219,6 @@
                     ' <input value="0" type="number" id="mp-hour"  min="0"  max="23" /> </div>'
                     + ' <a class="mp-clear"> پاک کردن </a> <a class="mp-today"> امروز </a> <a class="mp-close"> بستن </a> </div></div>');
 
-//             console.log($("#mpmonth ul li").length);
             // add persian month ro select in cal
 
             $(this.persian_month_names).each(function (k, v) {
@@ -409,7 +405,6 @@
                     var vd = $.mpdt.exploiter(today);
                 } else {
 
-                    console.log('x' + dt + 'x');
                     var newval = $.mpdt.exploiter(' ', dt);
                     if (newval.length == 1) {
 
@@ -427,7 +422,6 @@
         this.each(function () {
             $(this).addClass('mpdatepicker');
 
-//            console.log(settings.timePicker);
             if (settings.timePicker) {
                 $(this).addClass('mptimepick');
             }
@@ -444,7 +438,6 @@
                     $(".mptimepicker").hide();
                 }
 
-//                console.log(vd);
                 $.mpdt.ShowMonth(vd[1], vd[0], $(this).val());
                 $.mpdt.selectedDate = $(this).val();
                 $.mpdt.targetPicker = $(this);
@@ -462,14 +455,12 @@
         });
 
         this.attachCal = function (elementId) {
-            console.log(elementId);
             var element = $('#mpdatepicker-block').detach();
             $(elementId).append(element);
              var vd = $.mpdt.handleCal('');
             $('#mpdatepicker-block').addClass('static');
              $(".mptimepicker, .mp-clear, .mp-close, .mp-today").remove();
 
-//                console.log(vd);
                 $.mpdt.ShowMonth(vd[1], vd[0], '');
                 $.mpdt.selectedDate ='';
         }
