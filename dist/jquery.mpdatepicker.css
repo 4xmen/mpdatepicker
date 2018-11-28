@@ -54,6 +54,7 @@
 #mpdatepicker-block table{
     width: 95% ;
     margin: auto;
+	box-shadow: none;
 }
 
 
