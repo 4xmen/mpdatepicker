@@ -37,7 +37,7 @@
 
 
             $(' <style>' +
-                    '.mpdatepicker {background-image: url(' + settings.datepicker_bg + ') no-repeat !important;}' +
+                    '.mpdatepicker {background-image: url(' + settings.datepicker_bg + ') !important;background-repeat: no-repeat !important;}' +
                     ' <style>').appendTo("head");
 
 
