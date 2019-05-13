@@ -1,6 +1,6 @@
 {
   "name": "mpdatepicker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "material persian date picker",
   "main": "index.js",
   "directories": {
