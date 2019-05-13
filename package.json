@@ -1,0 +1,43 @@
+{
+  "name": "mpdatepicker",
+  "version": "1.0.0",
+  "description": "material persian date picker",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {
+    "jquery": ">=1.10.2"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.4",
+    "grunt-concat-css": "^0.3.2",
+    "grunt-contrib-coffee": "^2.1.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-watch": "^1.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4xmen/mpdatepicker.git"
+  },
+  "keywords": [
+    "persian",
+    "datepicker",
+    "datetimepicker",
+    "calendar"
+  ],
+  "author": {
+    "name": "4xmen",
+    "url": "http://4xmen.ir"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/4xmen/mpdatepicker/issues"
+  },
+  "homepage": "https://github.com/4xmen/mpdatepicker#readme"
+}
