@@ -33,9 +33,9 @@ Add css and jquery plugin:
 
 use plugin :
 ```javascript
-    $(function () {
-        $(".sample-date-picker").mpdatepicker({
-            'timePicker': true
-        });
+$(function () {
+    $(".sample-date-picker").mpdatepicker({
+        'timePicker': true
     });
+});
 ```        

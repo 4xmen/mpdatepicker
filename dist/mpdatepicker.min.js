@@ -1,5 +1,5 @@
 /*
- *  mpdatepicker - v1.0.0
+ *  mpdatepicker - v1.0.2
  *  material persian date picker
  *  https://github.com/4xmen/mpdatepicker#readme
  *
