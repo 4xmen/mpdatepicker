@@ -20,7 +20,8 @@
 
 
         this.getPersianWeekDay = function (jdate) {
-            var tmp = (this.Persian2Gregorian(this.exploiter(jdate)));
+            
+            var tmp = this.imploiter(this.Persian2Gregorian(this.exploiter(jdate)),'/');
             var dd = new Date(tmp + " 00:00:00").getDay() + 1;
             if (dd > 6) {
                 dd -= 7;
@@ -132,10 +133,11 @@
                 content = content + ('<td class="' + cls + '"  data-timestamp="' + tmsmp
                         + '" data-gdate="' + this.imploiter(this.Persian2Gregorian([yr, mn, i]), settings.gSpliter) + '" title="' +
                         this.pTimestamp2Date(tmsmp) + '">' + this.parseHindi(i) + '</td>');
+
+                // console.log(i,start_m_weekday);        
                 if ((i + start_m_weekday) % 7 == 0) {
                     content = content + ('</tr><tr>');
                 }
-
 
             }
 
