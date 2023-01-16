@@ -11,7 +11,15 @@
             fontStyle: null,
             gSpliter: '-',
             timePicker: null,
-            mainContentId: "#mpdatepicker-modal"
+            mainContentId: "#mpdatepicker-modal",
+            onOpen: function () {
+            },
+            onSelect: function (selected) {
+            },
+            onChange: function (oldVal, newVal) {
+            },
+            onClose: function () {
+            },
         }, options);
 
 
@@ -67,6 +75,14 @@
             return this.imploiter(this.Gregorian2Persian([date.getFullYear(), date.getMonth() + 1, date.getDate()]));
         }
 
+        this.calcTime = function (time){
+            if ($.mpdt.targetPicker.hasClass('mptimepick')) {
+                time += parseInt($("#mp-hour").val()) * 3600;
+                time += parseInt($("#mp-min").val()) * 60;
+                time += parseInt($("#mp-sec").val());
+            }
+            return time;
+        }
 
         this.pGetLastDayMonth = function (mn, yr) {
             let tmp;
@@ -163,12 +179,25 @@
                 }
 
 
+                let time = $.mpdt.calcTime(parseInt($(this).attr('data-timestamp')));
                 if ($.mpdt.targetPicker.hasClass('mptimepick')) {
                     $.mpdt.targetPicker.val(
-                        $.mpdt.make2number(parseInt($("#mp-hour").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-min").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-sec").val())) + '  ' +
+                        $.mpdt.make2number(parseInt($("#mp-hour").val())) + ':' +
+                        $.mpdt.make2number(parseInt($("#mp-min").val())) + ':' +
+                        $.mpdt.make2number(parseInt($("#mp-sec").val())) + '  ' +
                         $.mpdt.targetPicker.val()
                     );
                 }
+                settings.onSelect(time);
+                let oldVal;
+                if ( $.mpdt.targetPicker.attr('data-timestamp') == 'null' || $.mpdt.targetPicker.attr('data-timestamp') === undefined){
+                    oldVal = null;
+                }else{
+                    oldVal = parseInt($.mpdt.targetPicker.attr('data-timestamp'));
+                }
+                settings.onChange(oldVal,time);
+                $.mpdt.targetPicker.attr('data-timestamp',time);
+                settings.onClose();
                 $(settings.mainContentId).fadeOut(200);
             });
 
@@ -194,15 +223,38 @@
                 $.mpdt.targetPicker.val('');
                 $.mpdt.selectedDate = '';
                 $(settings.mainContentId).fadeOut(200);
+                settings.onSelect(null);
+                settings.onClose();
             });
             $(".mp-today").unbind('click.clk').bind('click.clk', function () {
                 let dtmp = new Date();
                 let today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
+                let time = $.mpdt.calcTime(Math.round(dtmp.getTime() / 1000));
+                settings.onSelect(time);
+                let oldVal;
+                if ( $.mpdt.targetPicker.attr('data-timestamp') == 'null' || $.mpdt.targetPicker.attr('data-timestamp') === undefined){
+                    oldVal = null;
+                }else{
+                    oldVal = parseInt($.mpdt.targetPicker.attr('data-timestamp'));
+                }
+                settings.onChange(oldVal,time);
+                $.mpdt.targetPicker.attr('data-timestamp',time);
+
                 $.mpdt.targetPicker.val(today);
+                if ($.mpdt.targetPicker.hasClass('mptimepick')) {
+                    $.mpdt.targetPicker.val(
+                        $.mpdt.make2number(parseInt($("#mp-hour").val())) + ':' +
+                        $.mpdt.make2number(parseInt($("#mp-min").val())) + ':' +
+                        $.mpdt.make2number(parseInt($("#mp-sec").val())) + '  ' +
+                        $.mpdt.targetPicker.val()
+                    );
+                }
                 $(settings.mainContentId).fadeOut(200);
+                settings.onClose();
             });
             $(".mp-close").unbind('click.clk').bind('click.clk', function () {
                 $(settings.mainContentId).fadeOut(200);
+                settings.onClose();
             });
 
         }
@@ -260,6 +312,7 @@
 
             $(settings.mainContentId).bind('click.close', function (e) {
                 if ($(e.target).is(this)) {
+                    settings.onClose();
                     $(this).fadeOut(400);
                 }
             });
@@ -434,10 +487,18 @@
 
 
             $(this).bind('focus.open', function () {
+                settings.onOpen();
+                if ($(this).val() === ''){
+                    $(this).attr('data-timestamp','null');
+                }
                 $(settings.mainContentId).fadeIn(400);
                 var dt = $.trim($(this).val());
 
                 var vd = $.mpdt.handleCal(dt);
+
+                if ($(this).attr('data-timestamp') === undefined ){
+                    $(this).attr('data-timestamp',$.mpdt.pDate2Timestamp(vd[0] + '/' + vd[1] + '/' + vd[2]));
+                }
                 if ($(this).hasClass('mptimepick')) {
                     $(".mptimepicker").show();
                 } else {
