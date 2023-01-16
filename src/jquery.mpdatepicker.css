@@ -7,7 +7,9 @@
     z-index: 99999;
     font-family: 'VazirCodeX';
     font-size: 11pt;
-    display: none
+    display: none;
+    align-content: center;
+    justify-content: center;
 }
 .mpdatepicker {
     background:no-repeat 3px;
@@ -25,10 +27,10 @@
     padding:10px 0;
     border-radius: 4px 4px 0 0;
     background: #fff;
-    position: fixed;
-    left:0;
-    right:0;
-    bottom:0px;
+    /*position: fixed;*/
+    /*left:0;*/
+    /*right:0;*/
+    /*bottom:0px;*/
     min-height:200px;
     margin:auto;
     width:400px;
@@ -261,4 +263,32 @@
 .mp-footer input{
     width: 3.3em;
     text-align: center;
+}
+
+.mptimepicker{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    direction: ltr;
+}
+.mptimepicker *{
+    transition: 100ms;
+}
+.mptimepicker > div{
+    height: 85px;
+    overflow: hidden;
+    cursor: ns-resize;
+    position: relative;
+}
+.mptimepicker .mp-holder{
+    position: absolute;
+    top: 2em;
+    left: 0;
+    right: 0;
+}
+.mp-select-item{
+    color: #666666;
+}
+.mp-select-item.active{
+    color: #000000;
+    font-size: 19px !important;
 }

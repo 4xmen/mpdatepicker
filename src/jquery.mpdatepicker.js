@@ -11,6 +11,7 @@
             fontStyle: null,
             gSpliter: '-',
             timePicker: null,
+            timeChangeSensitivity: 5,
             mainContentId: "#mpdatepicker-modal",
             onOpen: function () {
             },
@@ -24,7 +25,6 @@
 
 
         this.persian_month_names = ['', 'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
-
 
 
         this.getPersianWeekDay = function (jdate) {
@@ -53,6 +53,26 @@
         }
 
 
+        this.upDownCheck = function (upOrDown, main, sub, max = 59) {
+            let val = parseInt($(main).val());
+            $(sub + $(main).val()).removeClass('active');
+            if (upOrDown) {
+                if (val > 0) {
+                    val--;
+                    $(main).val(val);
+                }
+            } else {
+                if (val < max) {
+                    val++;
+                    $(main).val(val);
+                }
+            }
+            val *= -1.70;
+            val += 2;
+            $(sub + $(main).val()).addClass('active');
+            $(sub + $(main).val()).closest('.mp-holder').css('top', val + 'em');
+        }
+
         this.make2number = function (instr) {
             let num = instr.toString();
             return num.length === 2 ? num : '0' + num;
@@ -75,7 +95,7 @@
             return this.imploiter(this.Gregorian2Persian([date.getFullYear(), date.getMonth() + 1, date.getDate()]));
         }
 
-        this.calcTime = function (time){
+        this.calcTime = function (time) {
             if ($.mpdt.targetPicker.hasClass('mptimepick')) {
                 time += parseInt($("#mp-hour").val()) * 3600;
                 time += parseInt($("#mp-min").val()) * 60;
@@ -102,7 +122,7 @@
 
         this.ShowMonth = function (mn, yr, pickedday) {
 
-            let i ;
+            let i;
             $.mpdt.thisMonth = parseInt(mn);
             $.mpdt.selectedDate = pickedday;
             $("#mpmonth span").text(this.persian_month_names[parseInt(mn)]);
@@ -124,14 +144,14 @@
             let content = '<tr>';
 
             // show pervius month in calander
-            for ( i = 1; i <= start_m_weekday; i++) {
+            for (i = 1; i <= start_m_weekday; i++) {
                 let tmp = this.pTimestamp2Date(this.pDate2Timestamp(yr + '/' + mn + '/' + '01') - (86400 *
                     (start_m_weekday - i + 1)));
                 let tmpx = this.exploiter(tmp);
                 content = content + ('<td class="mp-other-month mp-prv">' + this.parseHindi(tmpx[2]) + '</td>');
             }
             //show this month
-            for ( i = 1; i <= last_day_of_this_month; i++) {
+            for (i = 1; i <= last_day_of_this_month; i++) {
 
                 let tmsmp = this.pDate2Timestamp(yr + '/' + mn + '/' + i);
 
@@ -190,13 +210,13 @@
                 }
                 settings.onSelect(time);
                 let oldVal;
-                if ( $.mpdt.targetPicker.attr('data-timestamp') == 'null' || $.mpdt.targetPicker.attr('data-timestamp') === undefined){
+                if ($.mpdt.targetPicker.attr('data-timestamp') == 'null' || $.mpdt.targetPicker.attr('data-timestamp') === undefined) {
                     oldVal = null;
-                }else{
+                } else {
                     oldVal = parseInt($.mpdt.targetPicker.attr('data-timestamp'));
                 }
-                settings.onChange(oldVal,time);
-                $.mpdt.targetPicker.attr('data-timestamp',time);
+                settings.onChange(oldVal, time);
+                $.mpdt.targetPicker.attr('data-timestamp', time);
                 settings.onClose();
                 $(settings.mainContentId).fadeOut(200);
             });
@@ -232,13 +252,13 @@
                 let time = $.mpdt.calcTime(Math.round(dtmp.getTime() / 1000));
                 settings.onSelect(time);
                 let oldVal;
-                if ( $.mpdt.targetPicker.attr('data-timestamp') == 'null' || $.mpdt.targetPicker.attr('data-timestamp') === undefined){
+                if ($.mpdt.targetPicker.attr('data-timestamp') == 'null' || $.mpdt.targetPicker.attr('data-timestamp') === undefined) {
                     oldVal = null;
-                }else{
+                } else {
                     oldVal = parseInt($.mpdt.targetPicker.attr('data-timestamp'));
                 }
-                settings.onChange(oldVal,time);
-                $.mpdt.targetPicker.attr('data-timestamp',time);
+                settings.onChange(oldVal, time);
+                $.mpdt.targetPicker.attr('data-timestamp', time);
 
                 $.mpdt.targetPicker.val(today);
                 if ($.mpdt.targetPicker.hasClass('mptimepick')) {
@@ -263,15 +283,30 @@
         this.AddDatepcikerBlock = function () {
 
             // add header and body of calendar
-            $(settings.mainContentId).append('<div id="mpdatepicker-block"><div class="mpbtn mpfleft mp-nxt" >&rsaquo;</div> ' +
-                ' <div class="mpbtn mpfright mp-prv" >&lsaquo;</div><div class="mpheader"><div id="mpmonth"> <ul></ul> <span> اردیبهشت </span>  </div> <div id="mpyear">  <input type="number" value="1396" /> </div>   </div> ' +
-                '<table> <thead> <th> ش </th><th> ی </th><th> د </th><th> س  </th><th> چ </th><th> پ </th><th> ج</th> </thead> <tbody></tbody> </table>' +
-                '<div class="mp-footer"> ' +
-                '<div class="mptimepicker"> <input value="0" type="number" id="mp-sec"  min="0"  max="59"  /> : ' +
-                ' <input value="0" type="number" id="mp-min"  min="0"  max="59"  />  :' +
-                ' <input value="0" type="number" id="mp-hour"  min="0"  max="23" /> </div>'
-                + ' <a class="mp-clear"> پاک کردن </a> <a class="mp-today"> امروز </a> <a class="mp-close"> بستن </a> </div></div>');
+            $(settings.mainContentId).append(
+                `<div id="mpdatepicker-block"><div class="mpbtn mpfleft mp-nxt" >&rsaquo;</div> 
+                 <div class="mpbtn mpfright mp-prv" >&lsaquo;</div><div class="mpheader"><div id="mpmonth"> <ul></ul> <span> اردیبهشت </span>  </div> <div id="mpyear">  <input type="number" value="1396" /> </div>   </div>
+                <table> <thead> <th> ش </th><th> ی </th><th> د </th><th> س  </th><th> چ </th><th> پ </th><th> ج</th> </thead> <tbody></tbody> </table>
+                <div class="mp-footer"> 
+                <div class="mptimepicker">
+                     <input value="0" type="hidden" id="mp-sec"  min="0"  max="59"  /> 
+                     <input value="0" type="hidden" id="mp-min"  min="0"  max="59"  />  
+                     <input value="0" type="hidden" id="mp-hour"  min="0"  max="23" />
+                     <div id="mp-select-hour" data-selected="h"><div class="mp-holder"></div></div>
+                     <div id="mp-select-min" data-selected="m"><div class="mp-holder"></div></div>
+                     <div id="mp-select-sec" data-selected="s"><div class="mp-holder"></div></div>
+                 </div> 
+                 <a class="mp-clear"> پاک کردن </a> <a class="mp-today"> امروز </a> <a class="mp-close"> بستن </a> </div></div>`
+            );
 
+
+            for (let i = 0; i < 60; i++) {
+                if (i < 24) {
+                    $("#mp-select-hour .mp-holder").append(`<div class="mp-select-item" id="mp-h-${i}">` + $.mpdt.make2number(i) + `</div>`);
+                }
+                $("#mp-select-min .mp-holder").append(`<div class="mp-select-item" id="mp-m-${i}">` + $.mpdt.make2number(i) + `</div>`);
+                $("#mp-select-sec .mp-holder").append(`<div class="mp-select-item" id="mp-s-${i}">` + $.mpdt.make2number(i) + `</div>`);
+            }
             // add persian month ro select in cal
 
             $(this.persian_month_names).each(function (k, v) {
@@ -280,6 +315,50 @@
                 }
             });
 
+            $("#mp-select-hour").bind('mousewheel', function (e) {
+                $.mpdt.upDownCheck(e.originalEvent.wheelDelta > 0, "#mp-hour", '#mp-h-', 23);
+            });
+
+            $("#mp-select-min").bind('mousewheel', function (e) {
+                $.mpdt.upDownCheck(e.originalEvent.wheelDelta > 0, "#mp-min", '#mp-m-');
+            });
+
+            $("#mp-select-sec").bind('mousewheel', function (e) {
+                $.mpdt.upDownCheck(e.originalEvent.wheelDelta > 0, "#mp-sec", '#mp-s-');
+            });
+
+            var startDrag, posY, selectedItem;
+            startDrag = false;
+            posY = true;
+
+            $("#mp-select-hour,#mp-select-min,#mp-select-sec").bind('mousedown.down', function (e) {
+                // dropTarget.addClass('dragging');
+                posY = e.pageY;
+                startDrag = true;
+                selectedItem = $(this).attr('data-selected');
+            });
+            $(document).bind('mouseup.move', function () {
+                startDrag = false;
+            });
+            $(document).bind('mousemove.up', function (e) {
+
+                if (startDrag &&  Math.abs(posY - e.pageY) > settings.timeChangeSensitivity ) {
+                    let booleanUp = (posY > e.pageY);
+                    console.log(booleanUp);
+                    switch (selectedItem) {
+                        case 'h':
+                            $.mpdt.upDownCheck(booleanUp, "#mp-hour", '#mp-h-', 23);
+                        break;
+                        case 'm':
+                            $.mpdt.upDownCheck(booleanUp, "#mp-min", '#mp-m-');
+                        break;
+                        case 's':
+                            $.mpdt.upDownCheck(booleanUp, "#mp-sec", '#mp-s-');
+                        break;
+                    }
+                    posY = e.pageY;
+                }
+            });
 
             // set select month event
             $("#mpmonth ul li").bind('click.select', function () {
@@ -310,7 +389,7 @@
             }
 
 
-            $(settings.mainContentId).bind('click.close', function (e) {
+            $(settings.mainContentId).bind('mousedown.close', function (e) {
                 if ($(e.target).is(this)) {
                     settings.onClose();
                     $(this).fadeOut(400);
@@ -428,7 +507,7 @@
             if (dayofyear > 79) {
                 jd = (leab ? dayofyear - 78 : dayofyear - 79);
                 jy = gy - 621;
-                for (i = 0; jd > j_days_in_month[i]; i++){
+                for (i = 0; jd > j_days_in_month[i]; i++) {
                     jd -= j_days_in_month[i];
                 }
             } else {
@@ -436,7 +515,7 @@
                 jy = gy - 622;
                 if (leap == 0 && jd == 366)
                     return [jy, 12, 30];
-                for (i = 0; jd > j_days_in_month[i]; i++){
+                for (i = 0; jd > j_days_in_month[i]; i++) {
                     jd -= j_days_in_month[i];
                 }
             }
@@ -488,16 +567,16 @@
 
             $(this).bind('focus.open', function () {
                 settings.onOpen();
-                if ($(this).val() === ''){
-                    $(this).attr('data-timestamp','null');
+                if ($(this).val() === '') {
+                    $(this).attr('data-timestamp', 'null');
                 }
-                $(settings.mainContentId).fadeIn(400);
+                $(settings.mainContentId).fadeIn(400).css('display', 'flex');
                 var dt = $.trim($(this).val());
 
                 var vd = $.mpdt.handleCal(dt);
 
-                if ($(this).attr('data-timestamp') === undefined ){
-                    $(this).attr('data-timestamp',$.mpdt.pDate2Timestamp(vd[0] + '/' + vd[1] + '/' + vd[2]));
+                if ($(this).attr('data-timestamp') === undefined) {
+                    $(this).attr('data-timestamp', $.mpdt.pDate2Timestamp(vd[0] + '/' + vd[1] + '/' + vd[2]));
                 }
                 if ($(this).hasClass('mptimepick')) {
                     $(".mptimepicker").show();
@@ -508,6 +587,11 @@
                 $.mpdt.ShowMonth(vd[1], vd[0], $(this).val());
                 $.mpdt.selectedDate = $(this).val();
                 $.mpdt.targetPicker = $(this);
+                if (settings.timePicker) {
+                    $('#mp-h-' + $("#mp-hour").val()).addClass('active');
+                    $('#mp-m-' + $("#mp-min").val()).addClass('active');
+                    $('#mp-s-' + $("#mp-sec").val()).addClass('active');
+                }
 
 
             });
