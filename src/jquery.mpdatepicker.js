@@ -316,14 +316,17 @@
             });
 
             $("#mp-select-hour").bind('mousewheel', function (e) {
+                e.preventDefault();
                 $.mpdt.upDownCheck(e.originalEvent.wheelDelta > 0, "#mp-hour", '#mp-h-', 23);
             });
 
             $("#mp-select-min").bind('mousewheel', function (e) {
+                e.preventDefault();
                 $.mpdt.upDownCheck(e.originalEvent.wheelDelta > 0, "#mp-min", '#mp-m-');
             });
 
             $("#mp-select-sec").bind('mousewheel', function (e) {
+                e.preventDefault();
                 $.mpdt.upDownCheck(e.originalEvent.wheelDelta > 0, "#mp-sec", '#mp-s-');
             });
 
