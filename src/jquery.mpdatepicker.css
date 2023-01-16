@@ -5,7 +5,7 @@
     top: 0;
     bottom: 0;
     z-index: 99999;
-    font-family: 'VazirCodeX';
+    font-family: 'VazirCodeX','Vazir Code', sans-serif;
     font-size: 11pt;
     display: none;
     align-content: center;
@@ -181,8 +181,8 @@
 }
 
 
-/*-450px width*/
-@media ( max-height : 500px ) {
+/*-450px height*/
+@media ( max-height :1000px ) {
 
     #mpmonth ul{
         width: 250px;
@@ -271,7 +271,7 @@
     direction: ltr;
 }
 .mptimepicker *{
-    transition: 100ms;
+    transition: 200ms;
 }
 .mptimepicker > div{
     height: 85px;
@@ -291,4 +291,5 @@
 .mp-select-item.active{
     color: #000000;
     font-size: 19px !important;
+    background: #00000033;
 }

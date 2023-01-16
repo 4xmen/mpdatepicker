@@ -67,7 +67,7 @@
                     $(main).val(val);
                 }
             }
-            val *= -1.70;
+            val *= -1.7049;
             val += 2;
             $(sub + $(main).val()).addClass('active');
             $(sub + $(main).val()).closest('.mp-holder').css('top', val + 'em');

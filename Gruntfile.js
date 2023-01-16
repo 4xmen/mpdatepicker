@@ -33,24 +33,18 @@ module.exports = function( grunt ) {
         },
         // Minify definitions
         uglify: {
-            dist: {
-                src: [ "dist/<%=  pkg.name %>.js" ],
-                dest: "dist/<%=  pkg.name %>.min.js"
-            },
-            options: {
-                banner: "<%= meta.banner %>"
+            dist:{
+                files: {
+                    'dist/jquery.mpdatepicker.min.js':'src/jquery.mpdatepicker.js',
+                }
             }
         },
         // Minify css
         cssmin: {
-            target: {
-                files: [ {
-                    expand: true,
-                    cwd: 'src',
-                    src: [ '*.css', '!*.min.css' ],
-                    dest: 'dist',
-                    ext: '.min.css'
-                } ]
+            dist:{
+                files: {
+                    'dist/jquery.mpdatepicker.min.css':'src/jquery.mpdatepicker.css',
+                }
             }
         },
         // CoffeeScript compilation
