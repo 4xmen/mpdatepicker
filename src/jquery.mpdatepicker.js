@@ -5,12 +5,13 @@
 
         $.mpdt = this;
 
-        var settings = $.extend({
+        let settings = $.extend({
             modal_bg: 'rgba(0,0,0,0.5)',
             datepicker_bg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAXCAYAAAALHW+jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AsWCCkyWrAXowAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAJDSURBVDjLnZU9a1RREIaf2b2ra9gFU6g5uLEwIgoBBRWsRFSiweYq/gIbQSsFDVpIQBSsxMKf4AcIcgoRRFGLIGJnExU/ihQeTSlKkt14x2YOHC53N9Epdnlnzpk795135kKFOa+XndcGfcx53ei8TjmvUo7V+ty5AWynvx0BrgKrTgjQGxBbBjTkUpQD4rx2gPdAqxQrBjxQ4/3E9x0YrwGXSsnG7f8k0K1I9ge4BvwGziT+EeB8DdhQunDY+CmANRUJ68BH4CawtxRrifM6BRyqeCVhsFWdeZQBXyr4+1+by4yrU8B8KjXgW1JB2zq7kKhjkzUiNmgzcDt2cSbk0gG2AVuAzyGX0QRfB04DW823C5gDxgyPWkGaJRIh5LJok6AlvAz0Qi5dww2rbCnkouZbUdj9tDfQJ87rXWACeG0PUOv6MyAzPAb8SnjOgAPAS4sXwDHgTmbEzwMPTHfLpq/7wDrDx4EAvLPzTWAP8DAZxYOA4Lzec16fl7bJhxK+4LxOJrjtvH6NvJnvh/N66184lNX4YpcbzusQsNa2TN15zUx/PXv1lvO63pK0je9hU0QvJs+M0N1GcGxKB5ixuVUb/EXgYjLPI8DTpNvDUYd14E3I5WjCx2zIZX+CzwKzIZdXhgX4FHLZl5wJgMSK6iss3iYwlG4VoFb6BNTij8RJGSDYLrCU4AWgiFOSbh9xXqeBc8ALq7QAJoHHQMPwDuCnLYPI/QTwJBndE8AVcV6btix3JpWWd13V7kt9ArwFpv8Ctt/A5Glz+/0AAAAASUVORK5CYII=',
             fontStyle: null,
             gSpliter: '-',
-            timePicker: null
+            timePicker: null,
+            mainContentId: "#mpdatepicker-modal"
         }, options);
 
 
@@ -18,11 +19,10 @@
 
 
 
-
         this.getPersianWeekDay = function (jdate) {
-            
-            var tmp = this.imploiter(this.Persian2Gregorian(this.exploiter(jdate)),'/');
-            var dd = new Date(tmp + " 00:00:00").getDay() + 1;
+
+            let tmp = this.imploiter(this.Persian2Gregorian(this.exploiter(jdate)), '/');
+            let dd = new Date(tmp + " 00:00:00").getDay() + 1;
             if (dd > 6) {
                 dd -= 7;
             }
@@ -32,48 +32,49 @@
 
         this.WriteCSS = function () {
 
-            $("#mpdatepicker-modal").css({
+            $(settings.mainContentId).css({
                 "background": settings.modal_bg
             });
 
 
             $(' <style>' +
-                    '.mpdatepicker {background-image: url(' + settings.datepicker_bg + ') !important;background-repeat: no-repeat !important;}' +
-                    ' <style>').appendTo("head");
+                '.mpdatepicker { background-image: url(' + settings.datepicker_bg + ') !important;background-repeat: no-repeat !important;}' +
+                ' </style>').appendTo("head");
 
 
         }
 
 
         this.make2number = function (instr) {
-            var newstr = instr.toString();
-            return newstr.length == 2 ? newstr : '0' + newstr;
+            let num = instr.toString();
+            return num.length === 2 ? num : '0' + num;
         }
 
         this.gDate2Timestamp = function (stri) {
-            return  Math.round(new Date(stri + " 00:00:00").getTime() / 1000);
+            return Math.round(new Date(stri + " 00:00:00").getTime() / 1000);
         }
 
         this.gTimestamp2Date = function (unix_timestamp) {
-            var date = new Date(unix_timestamp * 1000);
+            let date = new Date(unix_timestamp * 1000);
             return date.getFullYear() + settings.gSpliter + date.getMonth() + 1 + settings.gSpliter + date.getDate();
         }
         this.pDate2Timestamp = function (stri) {
-            return  this.gDate2Timestamp(this.imploiter(this.Persian2Gregorian(this.exploiter(stri))));
+            return this.gDate2Timestamp(this.imploiter(this.Persian2Gregorian(this.exploiter(stri))));
         }
 
         this.pTimestamp2Date = function (unix_timestamp) {
-            var date = new Date(unix_timestamp * 1000);
+            let date = new Date(unix_timestamp * 1000);
             return this.imploiter(this.Gregorian2Persian([date.getFullYear(), date.getMonth() + 1, date.getDate()]));
         }
 
 
         this.pGetLastDayMonth = function (mn, yr) {
-            last = 29;
-            now = this.pDate2Timestamp(yr + '/' + mn + '/' + (29));
-            for (var i = 1; i < 4; i++) {
+            let tmp;
+            let last = 29;
+            let now = this.pDate2Timestamp(yr + '/' + mn + '/' + (29));
+            for (let i = 1; i < 4; i++) {
                 now += 86400;
-                var tmp = this.exploiter(this.pTimestamp2Date(now));
+                tmp = this.exploiter(this.pTimestamp2Date(now));
                 if (tmp[2] < last) {
                     return last;
                 } else {
@@ -85,6 +86,7 @@
 
         this.ShowMonth = function (mn, yr, pickedday) {
 
+            let i ;
             $.mpdt.thisMonth = parseInt(mn);
             $.mpdt.selectedDate = pickedday;
             $("#mpmonth span").text(this.persian_month_names[parseInt(mn)]);
@@ -92,59 +94,58 @@
 
 
             window.mp_last_month = parseInt(mn);
-            // 
-            var last_day_of_this_month = this.pGetLastDayMonth(mn, yr);
-//            get frist day of month week day
+            //
+            let last_day_of_this_month = this.pGetLastDayMonth(mn, yr);
 
-            var start_m_weekday = this.getPersianWeekDay(yr + '/' + mn + '/' + '01');
+            // get frist day of month week day
+            let start_m_weekday = this.getPersianWeekDay(yr + '/' + mn + '/' + '01');
 
 
+            // today
+            let dtmp = new Date();
+            let today = this.imploiter(this.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
 
-//            today 
-            var dtmp = new Date();
-            var today = this.imploiter(this.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
-
-            var content = '<tr>';
+            let content = '<tr>';
 
             // show pervius month in calander
-            for (var i = 1; i <= start_m_weekday; i++) {
-                var tmp = this.pTimestamp2Date(this.pDate2Timestamp(yr + '/' + mn + '/' + '01') - (86400 *
-                        (start_m_weekday - i + 1)));
-                var tmpx = this.exploiter(tmp);
+            for ( i = 1; i <= start_m_weekday; i++) {
+                let tmp = this.pTimestamp2Date(this.pDate2Timestamp(yr + '/' + mn + '/' + '01') - (86400 *
+                    (start_m_weekday - i + 1)));
+                let tmpx = this.exploiter(tmp);
                 content = content + ('<td class="mp-other-month mp-prv">' + this.parseHindi(tmpx[2]) + '</td>');
             }
             //show this month
-            for (var i = 1; i <= last_day_of_this_month; i++) {
+            for ( i = 1; i <= last_day_of_this_month; i++) {
 
-                tmsmp = this.pDate2Timestamp(yr + '/' + mn + '/' + i);
+                let tmsmp = this.pDate2Timestamp(yr + '/' + mn + '/' + i);
 
                 // class can add
-                var cls = 'selectable';
+                let cls = 'selectable';
 
                 // is selected date
-                if (yr + '/' + (mn.toString().length == 1 ? '0' + mn : mn) + '/' + (i.toString().length == 1 ? '0' + i : i) == pickedday) {
+                if (yr + '/' + (mn.toString().length === 1 ? '0' + mn : mn) + '/' + (i.toString().length === 1 ? '0' + i : i) === pickedday) {
                     cls = cls + ' mp-picked';
                 }
                 // is today
-                var tdCheck = this.Persian2Gregorian([yr, mn, i]);
-                if (dtmp.getDate() == parseInt(tdCheck[2]) && dtmp.getMonth() + 1 == parseInt(tdCheck[1]) && dtmp.getFullYear() == parseInt(tdCheck[0])) {
+                let tdCheck = this.Persian2Gregorian([yr, mn, i]);
+                if (dtmp.getDate() === parseInt(tdCheck[2]) && dtmp.getMonth() + 1 === parseInt(tdCheck[1]) && dtmp.getFullYear() === parseInt(tdCheck[0])) {
                     cls = cls + ' mp-today-td';
                 }
                 content = content + ('<td class="' + cls + '"  data-timestamp="' + tmsmp
-                        + '" data-gdate="' + this.imploiter(this.Persian2Gregorian([yr, mn, i]), settings.gSpliter) + '" title="' +
-                        this.pTimestamp2Date(tmsmp) + '">' + this.parseHindi(i) + '</td>');
+                    + '" data-gdate="' + this.imploiter(this.Persian2Gregorian([yr, mn, i]), settings.gSpliter) + '" title="' +
+                    this.pTimestamp2Date(tmsmp) + '">' + this.parseHindi(i) + '</td>');
 
-                // console.log(i,start_m_weekday);        
-                if ((i + start_m_weekday) % 7 == 0) {
+                // console.log(i,start_m_weekday);
+                if ((i + start_m_weekday) % 7 === 0) {
                     content = content + ('</tr><tr>');
                 }
 
             }
 
             // last day of month week day
-            var end_m_weekday = this.getPersianWeekDay(yr + '/' + mn + '/' + (i - 1));
+            let end_m_weekday = this.getPersianWeekDay(yr + '/' + mn + '/' + (i - 1));
             // show next month days
-            for (var i = 0; i < (6 - end_m_weekday); i++) {
+            for (let i = 0; i < (6 - end_m_weekday); i++) {
                 content = content + ('<td class="mp-other-month mp-nxt">' + this.parseHindi(i + 1) + '</td>');
             }
             content += '</tr>';
@@ -164,50 +165,44 @@
 
                 if ($.mpdt.targetPicker.hasClass('mptimepick')) {
                     $.mpdt.targetPicker.val(
-                            $.mpdt.make2number(parseInt($("#mp-hour").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-min").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-sec").val())) + '  ' +
-                            $.mpdt.targetPicker.val()
-                            );
+                        $.mpdt.make2number(parseInt($("#mp-hour").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-min").val())) + ':' + $.mpdt.make2number(parseInt($("#mp-sec").val())) + '  ' +
+                        $.mpdt.targetPicker.val()
+                    );
                 }
-                $("#mpdatepicker-modal").fadeOut(200);
+                $(settings.mainContentId).fadeOut(200);
             });
 
 
-
-            $(".mp-prv").unbind('click.prvmn');
-            $(".mp-nxt").unbind('click.nxtmn');
-            $(".mp-close").unbind('click.clk');
-            $(".mp-clear").unbind('click.clk');
-            $(".mp-today").unbind('click.clk');
-            $(".mp-prv").bind('click.prvmn', function () {
-                var yyyy = parseInt($("#mpyear input").val());
-                if ($.mpdt.thisMonth - 1 == 0) {
+            $(".mp-prv").unbind('click.prvmn').bind('click.prvmn', function () {
+                let yyyy = parseInt($("#mpyear input").val());
+                if ($.mpdt.thisMonth - 1 === 0) {
                     $.mpdt.thisMonth = 13;
                     yyyy++;
                 }
                 $.mpdt.ShowMonth($.mpdt.thisMonth - 1, yyyy, $.mpdt.selectedDate);
             });
-            $(".mp-nxt").bind('click.nxtmn', function () {
-                var yyyy = parseInt($("#mpyear input").val());
-                if ($.mpdt.thisMonth + 1 == 13) {
+            $(".mp-nxt").unbind('click.nxtmn').bind('click.nxtmn', function () {
+                let yyyy = parseInt($("#mpyear input").val());
+                if ($.mpdt.thisMonth + 1 === 13) {
                     $.mpdt.thisMonth = 0;
                     yyyy--;
                 }
                 $.mpdt.ShowMonth($.mpdt.thisMonth + 1, yyyy, $.mpdt.selectedDate);
             });
 
-            $(".mp-clear").bind('click.clk', function () {
+            $(".mp-clear").unbind('click.clk').bind('click.clk', function () {
                 $.mpdt.targetPicker.val('');
                 $.mpdt.selectedDate = '';
-                $("#mpdatepicker-modal").fadeOut(200);
+                $(settings.mainContentId).fadeOut(200);
             });
-            $(".mp-today").bind('click.clk', function () {
-                var dtmp = new Date();
-                var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
+            $(".mp-today").unbind('click.clk').bind('click.clk', function () {
+                let dtmp = new Date();
+                let today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
                 $.mpdt.targetPicker.val(today);
-                $("#mpdatepicker-modal").fadeOut(200);
+                $(settings.mainContentId).fadeOut(200);
             });
-            $(".mp-close").bind('click.clk', function () {
-                $("#mpdatepicker-modal").fadeOut(200);
+            $(".mp-close").unbind('click.clk').bind('click.clk', function () {
+                $(settings.mainContentId).fadeOut(200);
             });
 
         }
@@ -215,15 +210,15 @@
 
         this.AddDatepcikerBlock = function () {
 
-            // add header and body of calendar 
-            $("#mpdatepicker-modal").append('<div id="mpdatepicker-block"><div class="mpbtn mpfleft mp-nxt" >&rsaquo;</div> ' +
-                    ' <div class="mpbtn mpfright mp-prv" >&lsaquo;</div><div class="mpheader"><div id="mpmonth"> <ul></ul> <span> اردیبهشت </span>  </div> <div id="mpyear">  <input type="number" value="1396" /> </div>   </div> ' +
-                    '<table> <thead> <th> ش </th><th> ی </th><th> د </th><th> س  </th><th> چ </th><th> پ </th><th> ج</th> </thead> <tbody></tbody> </table>' +
-                    '<div class="mp-footer"> ' +
-                    '<div class="mptimepicker"> <input value="0" type="number" id="mp-sec"  min="0"  max="59"  /> : ' +
-                    ' <input value="0" type="number" id="mp-min"  min="0"  max="59"  />  :' +
-                    ' <input value="0" type="number" id="mp-hour"  min="0"  max="23" /> </div>'
-                    + ' <a class="mp-clear"> پاک کردن </a> <a class="mp-today"> امروز </a> <a class="mp-close"> بستن </a> </div></div>');
+            // add header and body of calendar
+            $(settings.mainContentId).append('<div id="mpdatepicker-block"><div class="mpbtn mpfleft mp-nxt" >&rsaquo;</div> ' +
+                ' <div class="mpbtn mpfright mp-prv" >&lsaquo;</div><div class="mpheader"><div id="mpmonth"> <ul></ul> <span> اردیبهشت </span>  </div> <div id="mpyear">  <input type="number" value="1396" /> </div>   </div> ' +
+                '<table> <thead> <th> ش </th><th> ی </th><th> د </th><th> س  </th><th> چ </th><th> پ </th><th> ج</th> </thead> <tbody></tbody> </table>' +
+                '<div class="mp-footer"> ' +
+                '<div class="mptimepicker"> <input value="0" type="number" id="mp-sec"  min="0"  max="59"  /> : ' +
+                ' <input value="0" type="number" id="mp-min"  min="0"  max="59"  />  :' +
+                ' <input value="0" type="number" id="mp-hour"  min="0"  max="23" /> </div>'
+                + ' <a class="mp-clear"> پاک کردن </a> <a class="mp-today"> امروز </a> <a class="mp-close"> بستن </a> </div></div>');
 
             // add persian month ro select in cal
 
@@ -256,15 +251,14 @@
 
         this.MakeModalBg = function () {
             // check is modal exists
-            if ($("#mpdatepicker-modal").length == 0) {
+            if ($(settings.mainContentId).length === 0) {
                 //it doesn't exist
                 $('body').append('<div id="mpdatepicker-modal" ></div>');
                 $.mpdt.AddDatepcikerBlock();
             }
 
 
-
-            $("#mpdatepicker-modal").bind('click.close', function (e) {
+            $(settings.mainContentId).bind('click.close', function (e) {
                 if ($(e.target).is(this)) {
                     $(this).fadeOut(400);
                 }
@@ -272,12 +266,12 @@
         };
 
         /**
-         *  from parsi date by mobin ghasem pour 
+         *  from parsi date by mobin ghasem pour
          * @param {integer} year
          * @returns {Boolean}
          */
         this.IsLeapYear = function (year) {
-            if (((year % 4) == 0 && (year % 100) != 0) || ((year % 400) == 0) && (year % 100) == 0)
+            if (((year % 4) === 0 && (year % 100) !== 0) || ((year % 400) === 0) && (year % 100) === 0)
                 return true;
             else
                 return false;
@@ -286,9 +280,9 @@
 
         this.parseHindi = function (str) {
 
-            var r = str.toString();
-            var org = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-            var hindi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            let r = str.toString();
+            let org = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            let hindi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
             for (var ch in org) {
                 r = r.replace(new RegExp(org[ch], 'g'), hindi[ch]);
             }
@@ -301,7 +295,7 @@
             if (typeof determ === 'undefined') {
                 determ = '/';
             }
-            var a = date_txt.split(determ);
+            let a = date_txt.split(determ);
 
             if (typeof a[2] === 'undefined') {
                 return a;
@@ -322,20 +316,20 @@
 
 
         /**
-         * from parsi date by mobin ghasem pour 
+         * from parsi date by mobin ghasem pour
          * @param {Array} indate
          * @returns {Array}
          */
         this.Persian2Gregorian = function (indate) {
-            var jy = indate[0];
-            var jm = indate[1];
-            var jd = indate[2];
-            var gd;
-            j_days_sum_month = [0, 0, 31, 62, 93, 124, 155, 186, 216, 246, 276, 306, 336, 365];
-            g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-            g_days_leap_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            let jy = indate[0];
+            let jm = indate[1];
+            let jd = indate[2];
+            let gd;
+            let j_days_sum_month = [0, 0, 31, 62, 93, 124, 155, 186, 216, 246, 276, 306, 336, 365];
+            let g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            let g_days_leap_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
             gd = j_days_sum_month[parseInt(jm)] + parseInt(jd);
-            gy = parseInt(jy) + 621;
+            let gy = parseInt(jy) + 621;
             if (gd > 286)
                 gy++;
             if (this.IsLeapYear(gy - 1) && 286 < gd)
@@ -344,6 +338,7 @@
                 gd -= 286;
             else
                 gd += 79;
+            let gm;
             if (this.IsLeapYear(gy)) {
                 for (gm = 0; gd > g_days_leap_month[gm]; gm++) {
                     gd -= g_days_leap_month[gm];
@@ -360,15 +355,17 @@
 
 
         /**
-         * from parsi date by mobin ghasem pour 
+         * from parsi date by mobin ghasem pour
          * @param {Array} indate
          * @returns {Array}
          */
         this.Gregorian2Persian = function (indate) {
 
-            var gy = indate[0];
-            var gm = indate[1];
-            var gd = indate[2];
+            let gy, gm, gd, j_days_in_month, g_days_sum_month, dayofyear, leab, leap, jd, jy, jm, i;
+
+            gy = indate[0];
+            gm = indate[1];
+            gd = indate[2];
 
             j_days_in_month = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
             g_days_sum_month = [0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
@@ -378,15 +375,17 @@
             if (dayofyear > 79) {
                 jd = (leab ? dayofyear - 78 : dayofyear - 79);
                 jy = gy - 621;
-                for (i = 0; jd > j_days_in_month[i]; i++)
+                for (i = 0; jd > j_days_in_month[i]; i++){
                     jd -= j_days_in_month[i];
+                }
             } else {
                 jd = ((leap || (leab && gm > 2)) ? 287 + dayofyear : 286 + dayofyear);
                 jy = gy - 622;
                 if (leap == 0 && jd == 366)
                     return [jy, 12, 30];
-                for (i = 0; jd > j_days_in_month[i]; i++)
+                for (i = 0; jd > j_days_in_month[i]; i++){
                     jd -= j_days_in_month[i];
+                }
             }
             jm = ++i;
             jm = (jm < 10 ? jm = '0' + jm : jm);
@@ -404,21 +403,22 @@
         };
 
         this.handleCal = function (dt) {
+            var dtmp, today, vd, newval, currentDay;
             if (dt.length !== 10) {
-                var dtmp = new Date();
-                var today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
+                dtmp = new Date();
+                today = ($.mpdt.pTimestamp2Date(Math.round(dtmp.getTime() / 1000)));
 //                    $(this).val(today);
-                var vd = $.mpdt.exploiter(today);
+                vd = $.mpdt.exploiter(today);
             } else {
 
-                var newval = $.mpdt.exploiter(' ', dt);
+                newval = $.mpdt.exploiter(' ', dt);
                 if (newval.length == 1) {
 
-                    var currentDay = dt;
+                    currentDay = dt;
                 } else {
-                    var currentDay = newval[1];
+                    currentDay = newval[1];
                 }
-                var vd = $.mpdt.exploiter(currentDay);
+                vd = $.mpdt.exploiter(currentDay);
             }
 
             return vd;
@@ -434,7 +434,7 @@
 
 
             $(this).bind('focus.open', function () {
-                $("#mpdatepicker-modal").fadeIn(400);
+                $(settings.mainContentId).fadeIn(400);
                 var dt = $.trim($(this).val());
 
                 var vd = $.mpdt.handleCal(dt);
@@ -450,7 +450,6 @@
 
 
             });
-
 
 
             $.mpdt.MakeModalBg();
