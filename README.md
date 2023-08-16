@@ -33,8 +33,8 @@ Add css and jquery plugin:
 
 ```html
 
-<script type="text/javascript" src="node_modules/dist/jquery.mpdatepicker.js"></script>
-<link type="text/css" rel="stylesheet" href="node_modules/dist/jquery.mpdatepicker.css"/>
+   <script type="text/javascript" src="node_modules/mpdatepicker/dist/jquery.mpdatepicker.min.js"></script>
+   <link type="text/css" rel="stylesheet" href="node_modules/mpdatepicker/dist/jquery.mpdatepicker.min.css"/>
 ```
 
 use plugin :
