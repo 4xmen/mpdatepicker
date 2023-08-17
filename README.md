@@ -11,7 +11,11 @@ Materialize Persian Date and time picker by A1Gard 4xmen.ir
 
 ## screenshot
 
+<div align="center">
+
 ![mp datetime picker](screenshot.png)
+
+</div>
 
 ## How to use
 
@@ -22,20 +26,29 @@ Add jquery:
 <script type="text/javascript" src="../dist/jquery.min.js"></script>
 ```
 
-Add additional font for best view or use [vazir-code-font](https://www.npmjs.com/package/vazir-code-font):
+Add additional font for best view or use [Vazir-Matn-Font](https://www.npmjs.com/package/vazirmatn):
 
 ```html
 
-<link type="text/css" rel="stylesheet" href="http://4xmen.ir/cdn/VazirCodeX.css"/> 
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css"/> 
 ```
 
-Add css and jquery plugin:
+Add css and jquery plugin To end of your project:
 
 ```html
 
 <script type="text/javascript" src="node_modules/mpdatepicker/dist/jquery.mpdatepicker.min.js"></script>
 <link type="text/css" rel="stylesheet" href="node_modules/mpdatepicker/dist/jquery.mpdatepicker.min.css"/>
 ```
+
+
+Add Html :
+
+```Html
+<input class="sample-date-picker bg-white w-100 p-3"
+       placeholder="تاریخ" type="text" id="date">
+```     
+
 
 use plugin :
 
@@ -57,7 +70,7 @@ $(function () {
         },
     });
 });
-```        
+```
 
 ## Options & events
 
